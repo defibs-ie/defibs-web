@@ -7,8 +7,9 @@ const initialState = {
 };
 
 export default function reducer(state=initialState, action) {
-  switch (action.payload) {
+  switch (action.type) {
     case SET_WINDOW_DIMENSIONS:
+      console.info('SET_WINDOW_DIMENSIONS');
       const { width, height } = action.payload;
       const isCompact = width < 600 || height < 700;
       return { ...state, width, height, isCompact };

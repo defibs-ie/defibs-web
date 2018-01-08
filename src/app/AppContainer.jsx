@@ -5,10 +5,12 @@ import { Spacing } from 'react-elemental';
 import { MapContainer } from '../map';
 import { HeaderContainer } from '../header';
 import { ControlPanelContainer } from '../control-panel';
+import withWindowDimensions from '../shared/withWindowDimensions';
 import { setWindowDimensions } from '../context/actions';
 
 class AppContainer extends Component {
   componentWillMount() {
+    console.info('AppContainer.componentWillMount()');
     this.props.handleWindowDimensionsChange();
   }
 
@@ -17,7 +19,10 @@ class AppContainer extends Component {
   }
 
 	render() {
-    const { isCompact } = this.props;
+    // const { isCompact } = this.props;
+    const isCompact = window.innerWidth < 600 || window.innerHeight < 700;
+    console.info(`Am I compact? ${isCompact}`);
+    console.info(this.props);
 
     const baseStyle = {
       position: 'absolute',
@@ -38,7 +43,7 @@ class AppContainer extends Component {
     return (
       <div>
         <HeaderContainer />
-        <div>
+        <div style={{ width: '100%', height: '100%' }}>
           <MapContainer />
           <Spacing
             style={{
@@ -56,10 +61,22 @@ class AppContainer extends Component {
 	}
 }
 
-function mergeProps(stateProps, dispatchProps, ownProps) {
+function mapState(state) {
+  // console.info('compact? ' + state.context.isCompact);
   return {
-    handleWindowDimensionsChange: () => dispatchProps.setWindowDimensions(ownProps.width, ownProps.height),
+    isCompact: state.context.isCompact,
   };
 }
 
-export default connect(null, { setWindowDimensions }, mergeProps)(AppContainer);
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  return {
+    handleWindowDimensionsChange,
+  };
+
+  function handleWindowDimensionsChange() {
+    console.info(`HANDLING: ${ownProps.width}, ${ownProps.height}`);
+    return dispatchProps.setWindowDimensions(ownProps.width, ownProps.height);
+  }
+}
+
+export default withWindowDimensions(connect(mapState, { setWindowDimensions }, mergeProps)(AppContainer));

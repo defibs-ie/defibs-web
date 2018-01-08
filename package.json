@@ -7,7 +7,7 @@
   "author": "sdob <sdob@cs.ucc.ie>",
   "license": "MIT",
   "scripts": {
-    "dist": "rimraf dist/ && NODE_ENV=production webpack -p",
+    "dist": "rimraf dist/ && NODE_ENV=production webpack",
     "start": "webpack-dev-server --devtool eval --progress --hot --content-base src"
   },
   "dependencies": {

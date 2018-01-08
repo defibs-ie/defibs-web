@@ -21,6 +21,8 @@ class ControlPanelContainer extends Component {
     const { defib, isCompact } = this.props;
     const { isExpanded } = this.state;
 
+    console.info('ControlPanelContainer isCompact? ' + isCompact);
+
     const baseStyle = {
       backgroundColor: 'white',
       maxHeight: '110px',
@@ -102,6 +104,7 @@ function renderEmptyDetail() {
 function mapState(state) {
   return {
     defib: state.defibs.defibDetail,
+    isCompact: state.context.isCompact,
   };
 }
 

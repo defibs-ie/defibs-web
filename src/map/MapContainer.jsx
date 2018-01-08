@@ -10,13 +10,15 @@ import MapGL, {
 
 import { fetchDefibDetail, fetchDefibs } from '../defibs/actions';
 import { persistViewportState, setViewport } from './actions';
+import { setWindowDimensions } from '../context/actions';
 import Pin from './Pin';
 
 const navStyle = {
   position: 'absolute',
-  top: 0,
-  left: 0,
+  bottom: 0,
+  right: 0,
   padding: '10px',
+  zIndex: 5,
 };
 
 class MapContainer extends Component {
@@ -77,6 +79,8 @@ class MapContainer extends Component {
     while (!this.props.viewport) {
       return null;
     }
+
+//    this.props.setWindowDimensions(window.innerWidth, window.innerHeight);
 
 		const styles = {
 			marker: {
@@ -156,5 +160,6 @@ export default connect(mapState, {
   fetchDefibDetail,
   fetchDefibs,
   persistViewportState,
+  setWindowDimensions,
   setViewport,
 })(MapContainer);
