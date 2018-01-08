@@ -59,3 +59,6 @@ typings/
 
 # VIM swap files
 *.*.sw[a-p]
+
+# Build artifacts
+dist/

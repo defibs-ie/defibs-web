@@ -6,7 +6,12 @@ require('dotenv').config();
 
 const {
   ACCESS_TOKEN,
+  NODE_ENV,
 } = process.env;
+
+const API_URL = NODE_ENV === 'production'
+  ? process.env.API_URL_PRODUCTION
+  : process.env.API_URL_DEVELOPMENT;
 
 module.exports = {
   devServer: {
@@ -19,6 +24,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist/'),
     publicPath: '/',
     filename: 'bundle.[hash].js',
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   module: {
     rules: [
@@ -39,6 +47,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       ACCESS_TOKEN: `'${ACCESS_TOKEN}'`,
+      API_URL: `'${API_URL}'`,
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
