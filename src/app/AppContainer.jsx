@@ -15,6 +15,7 @@ class AppContainer extends Component {
   componentDidUpdate() {
     this.props.handleWindowDimensionsChange();
   }
+
 	render() {
     const { isCompact } = this.props;
 
@@ -37,7 +38,7 @@ class AppContainer extends Component {
     return (
       <div>
         <HeaderContainer />
-        <div style={{ width: '100%', height: '100vh' }}>
+        <div>
           <MapContainer />
           <Spacing
             style={{

@@ -1,38 +1,82 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ReactMapboxGl, { Layer, Feature, Marker, Source, ZoomControl } from 'react-mapbox-gl';
+// import ReactMapboxGl, { Layer, Feature, Marker, Source, ZoomControl } from 'react-mapbox-gl';
+import MapGL, {
+  FlyToInterpolator,
+  Marker,
+  Popup,
+  NavigationControl,
+  } from 'react-map-gl';
 
 import { fetchDefibDetail, fetchDefibs } from '../defibs/actions';
-import { persistMapState, setViewport } from './actions';
+import { persistViewportState, setViewport } from './actions';
+import Pin from './Pin';
+
+const navStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  padding: '10px',
+};
 
 class MapContainer extends Component {
 
   constructor(...args) {
     super(...args);
-    this.handleClick = this.handleClick.bind(this);
-    this.onMoveEnd = this.onMoveEnd.bind(this);
+    this.state = {
+      // interpolator: new FlyToInterpolator(),
+      viewport: this.props.viewport,
+    };
+    this.handleMarkerClick = this.handleMarkerClick.bind(this);
+    this.resize = this.resize.bind(this);
+    this.updateViewport = this.updateViewport.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchDefibs();
+    window.addEventListener('resize', this.resize);
+    this.resize();
   }
 
-  handleClick(map, event) {
-    console.info(map);
-    console.info(event);
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resize);
   }
 
-  handleViewportChange(viewport) {
-    this.props.setViewport(viewport);
+  handleMarkerClick(defib) {
+    const { lat, lon, id } = defib;
+    // Retrieve defib info
+    this.props.fetchDefibDetail(id);
+    // Move to the marker position
+    this.setState({ 
+      viewport: {
+        ...this.state.viewport,
+        latitude: Number(lat),
+        longitude: Number(lon),
+        zoom: Math.max(this.state.viewport.zoom, 15), // don't zoom *out*
+      },
+    });
   }
 
-  onMoveEnd(map) {
-    const { lat, lng } = map.getCenter();
-    const zoom = map.getZoom();
-    this.props.persistMapState({ lat, lng, zoom });
+  resize() {
+    this.setState({
+      viewport: {
+        ...this.state.viewport,
+        width: this.props.width || window.innerWidth,
+        height: this.props.height || window.innerHeight,
+      },
+    });
+  }
+
+  updateViewport(viewport) {
+    this.setState({ viewport });
+    this.props.persistViewportState({ viewport });
   }
 
   render() {
+
+    while (!this.props.viewport) {
+      return null;
+    }
 
 		const styles = {
 			marker: {
@@ -47,61 +91,41 @@ class MapContainer extends Component {
         cursor: 'pointer',
 			},
 		};
-    const { lat, lng, zoom } = this.props.initialState;
     const { defibs } = this.props;
-    const Map = ReactMapboxGl({
-      accessToken: ACCESS_TOKEN,
-    });
-
-    console.info(`Placing ${defibs.length} markers`);
-
-    console.info('defibs');
-    console.info(defibs);
+    const { viewport } = this.state;
 
     return (
       <div style={{ position: 'absolute' }}>
-        <Map
-          style="mapbox://styles/mapbox/dark-v9"
-          containerStyle={{
-            height: '100vh',
-            width: '100vw',
-          }}
-          center={[ lng, lat ]}
-          zoom={[zoom]}
-          onClick={this.handleClick}
-          onMoveEnd={this.onMoveEnd}
+        <MapGL
+          {...viewport}
+          mapStyle="mapbox://styles/mapbox/dark-v9"
+          mapboxApiAccessToken={ACCESS_TOKEN}
+          onViewportChange={this.updateViewport}
+          ref={(map) => { this.map = map; }}
+          transitionInterpolator={
+            this.map && this.map.state.isDragging
+            ? null
+            : null // TODO: bring back transitions for fly-tos only
+            //: new FlyToInterpolator()
+          }
+          transitionDuration={100}
         >
-          <Source
-            id="defib-source-id"
-            geoJsonSource={{
-              "type": "geojson",
-              "data": {
-                "type": "FeatureCollection",
-                "features": defibs.map(defib => ({
-                  "type": "Feature",
-                  "geometry": {
-                    "type": "Point",
-                    "coordinates": [defib.lat, defib.lon],
-                  },
-                  "properties": {
-                    "address": defib.address,
-                  },
-                })),
-              },
-            }}
-          />
-          <Layer
-            id="points"
-            type="symbol"
-            sourceId="defib-source-id"
-            layout={{ "icon-image": "marker-15" }}
-            paint={{ }}
-          >
-          </Layer>
-          <ZoomControl
-            position="bottom-right"
-          />
-        </Map>
+          {defibs.map(defib => (
+            <Marker
+              key={defib.id}
+              longitude={Number(defib.lon)}
+              latitude={Number(defib.lat)}
+            >
+              <Pin
+                size={20}
+                onClick={() => this.handleMarkerClick(defib)}
+              />
+            </Marker>
+          ))}
+          <div className="nav" style={navStyle}>
+            <NavigationControl onViewportChange={this.updateViewport} />
+          </div>
+        </MapGL>
       </div>
     );
   }
@@ -109,18 +133,28 @@ class MapContainer extends Component {
 
 MapContainer.defaultProps = {
   defibs: [],
+  viewport: {
+    latitude: 52,
+    longitude: -8,
+    zoom: 3.5,
+    bearing: 0,
+    pitch: 0,
+    width: 500,
+    height: 500,
+  },
 };
 
 function mapState(state) {
+  console.info(state);
   return {
     defibs: state.defibs.defibs,
-    initialState: state.map,
+    viewport: state.map.viewport,
   };
 }
 
 export default connect(mapState, {
   fetchDefibDetail,
   fetchDefibs,
-  persistMapState,
+  persistViewportState,
   setViewport,
 })(MapContainer);

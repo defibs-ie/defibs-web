@@ -21,14 +21,13 @@ bootstrap({
 const store = applyMiddleware(reduxThunk)(createStore)(reducer);
 
 /* Initialize map state */
-const initialState = JSON.parse(localStorage.getItem('map') || {});
-const lat = initialState.lat || 52;
-const lng = initialState.lng || -8;
-const zoom = initialState.zoom || 8;
-store.dispatch({
-  type: 'initial-state/LOADED',
-  payload: { lat, lng, zoom },
-});
+const viewport = JSON.parse(localStorage.getItem('viewport') || '{}');
+if (Object.keys(viewport).length) {
+  store.dispatch({
+    type: 'initial-state/LOADED',
+    payload: viewport,
+  });
+}
 
 /* Render */
 ReactDOM.render(

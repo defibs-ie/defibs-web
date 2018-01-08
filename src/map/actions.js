@@ -1,10 +1,8 @@
 export const SET_VIEWPORT = 'map/SET_VIEWPORT';
 
-function persistMapState({ lat, lng, zoom }) {
+function persistViewportState({ viewport }) {
   return (dispatch) => {
-    console.info('persisting map state');
-    console.info({ lat, lng, zoom });
-    localStorage.setItem('map', JSON.stringify({ lat, lng, zoom }));
+    localStorage.setItem('viewport', JSON.stringify(viewport));
   };
 }
 
@@ -14,4 +12,4 @@ function setViewport(viewport) {
   };
 }
 
-export { persistMapState };
+export { persistViewportState };

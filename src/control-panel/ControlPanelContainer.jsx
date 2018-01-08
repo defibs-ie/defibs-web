@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Spacing } from 'react-elemental';
+import { Spacing, Text } from 'react-elemental';
 import Header from './Header';
 import DefibDetailContainer from './DefibDetailContainer';
+import Pin from '../map/Pin';
 
 class ControlPanelContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isExpanded: !props.isCompact,
-    };
+    this.state = { isExpanded: !props.isCompact };
     this.toggleExpansionState = this.toggleExpansionState.bind(this);
   }
 
@@ -65,7 +64,7 @@ class ControlPanelContainer extends Component {
         bottom
         padding
       >
-        <Spacing size="large" bottom>
+        <Spacing size="large">
           <Header
             isExpanded={isExpanded}
             isCompact={isCompact}
@@ -73,15 +72,31 @@ class ControlPanelContainer extends Component {
           />
         </Spacing>
 
-        {isExpanded && defib && (
-          <Spacing size="large" bottom>
-            <DefibDetailContainer defib={defib} />
+        {isExpanded && (
+          <Spacing size="large" top bottom>
+              {defib ? renderDefibDetail({ defib }) : renderEmptyDetail() }
           </Spacing>
         )}
       </Spacing>
     </Spacing>
     );
   }
+}
+
+function renderDefibDetail({ defib }) {
+  return <DefibDetailContainer defib={defib} />;
+}
+
+function renderEmptyDetail() {
+  return (
+    <Text>
+      Click on a defibrillator marker
+      {' '}
+      <Pin size={20} style={{transform: 'none'}} />
+      {' '}
+      for more information.
+    </Text>
+  );
 }
 
 function mapState(state) {
