@@ -94,7 +94,13 @@ function renderEmptyDetail() {
     <Text>
       Click on a defibrillator marker
       {' '}
-      <Pin size={20} style={{transform: 'none'}} />
+      <Pin
+        size={20}
+        style={{
+          transform: 'none',
+          cursor: 'default',
+        }}
+      />
       {' '}
       for more information.
     </Text>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import ReactMapboxGl, { Layer, Feature, Marker, Source, ZoomControl } from 'react-mapbox-gl';
 import MapGL, {
   FlyToInterpolator,
   Marker,
@@ -25,10 +24,7 @@ class MapContainer extends Component {
 
   constructor(...args) {
     super(...args);
-    this.state = {
-      // interpolator: new FlyToInterpolator(),
-      viewport: this.props.viewport,
-    };
+    this.state = { viewport: this.props.viewport };
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
     this.resize = this.resize.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
@@ -55,6 +51,8 @@ class MapContainer extends Component {
         latitude: Number(lat),
         longitude: Number(lon),
         zoom: Math.max(this.state.viewport.zoom, 15), // don't zoom *out*
+        transitionInterpolator: new FlyToInterpolator(),
+        transitionDuration: 500,
       },
     });
   }
@@ -80,8 +78,6 @@ class MapContainer extends Component {
       return null;
     }
 
-//    this.props.setWindowDimensions(window.innerWidth, window.innerHeight);
-
 		const styles = {
 			marker: {
 				width: 30,
@@ -106,13 +102,6 @@ class MapContainer extends Component {
           mapboxApiAccessToken={ACCESS_TOKEN}
           onViewportChange={this.updateViewport}
           ref={(map) => { this.map = map; }}
-          transitionInterpolator={
-            this.map && this.map.state.isDragging
-            ? null
-            : null // TODO: bring back transitions for fly-tos only
-            //: new FlyToInterpolator()
-          }
-          transitionDuration={100}
         >
           {defibs.map(defib => (
             <Marker
@@ -121,7 +110,7 @@ class MapContainer extends Component {
               latitude={Number(defib.lat)}
             >
               <Pin
-                size={20}
+                size={36}
                 onClick={() => this.handleMarkerClick(defib)}
               />
             </Marker>

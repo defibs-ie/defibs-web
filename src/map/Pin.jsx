@@ -1,9 +1,5 @@
 import React, { PureComponent } from 'react';
 
-const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,4.5,2,10c0,2,0.6,3.9,1.6,5.4c0,0.1,0.1,0.2,0.2,0.3
-  c0,0,0.1,0.1,0.1,0.2c0.2,0.3,0.4,0.6,0.7,0.9c2.6,3.1,7.4,7.6,7.4,7.6s4.8-4.5,7.4-7.5c0.2-0.3,0.5-0.6,0.7-0.9
-  C20.1,15.8,20.2,15.8,20.2,15.7z`;
-
 const pinStyle = {
   cursor: 'pointer',
   fill: '#d00',
@@ -12,19 +8,32 @@ const pinStyle = {
 
 export default class Pin extends PureComponent {
   render() {
-    const { size=20, onClick } = this.props;
+    const { size=41.25, onClick } = this.props;
     return (
       <svg
+        width={size * 29 / 41.25}
         height={size}
-        viewBox='0 0 24 24'
+        viewBox="0 0 29 41.25"
+        onClick={onClick}
         style={{
           ...pinStyle,
-          transform: `translate(${-size/2}px,${-size}px)`,
           ...this.props.style,
         }}
-        onClick={onClick}
       >
-        <path d={ICON} />
+        <path
+          d="m 14.5,0.5 c -7.73,0 -14,6.27 -14,14 0,10.5 14,26 14,26 0,0 14,-15.5 14,-26 0,-7.73 -6.27,-14 -14,-14 z m 0,19 c -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 0,2.76 -2.24,5 -5,5 z"
+          id="path3053"
+          style={{
+            stroke: '#ffffff',
+            fill: '#8b0000',
+            strokeWidth: '2',
+          }}
+        />
+        <path
+          d="m -9.5,-3.5 h 48 v 48 h -48 z"
+          id="path3055"
+          style={{ "fill": "none" }}
+         />
       </svg>
     );
   }
