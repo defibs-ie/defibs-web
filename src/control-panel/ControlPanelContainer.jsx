@@ -4,22 +4,21 @@ import { Spacing, Text } from 'react-elemental';
 import Header from './Header';
 import DefibDetailContainer from './DefibDetailContainer';
 import Pin from '../map/Pin';
+import { setIsExpanded } from './actions';
 
 class ControlPanelContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { isExpanded: !props.isCompact };
     this.toggleExpansionState = this.toggleExpansionState.bind(this);
   }
 
   toggleExpansionState() {
-    this.setState({ isExpanded: !this.state.isExpanded });
+    this.props.setIsExpanded(!this.props.isExpanded);
   }
 
   render() {
-    const { defib, isCompact } = this.props;
-    const { isExpanded } = this.state;
+    const { defib, isCompact, isExpanded } = this.props;
 
     console.info('ControlPanelContainer isCompact? ' + isCompact);
 
@@ -111,7 +110,8 @@ function mapState(state) {
   return {
     defib: state.defibs.defibDetail,
     isCompact: state.context.isCompact,
+    isExpanded: state.controlPanel.isExpanded,
   };
 }
 
-export default connect(mapState)(ControlPanelContainer);
+export default connect(mapState, { setIsExpanded })(ControlPanelContainer);

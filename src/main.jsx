@@ -10,6 +10,7 @@ import karlaRegular from 'react-elemental-fonts/karla-regular';
 import reducer from './reducer';
 import { Header } from './header';
 import { AppContainer } from './app';
+import { SET_IS_EXPANDED } from './control-panel/actions';
 
 bootstrap({
 	primary: {
@@ -26,6 +27,10 @@ if (Object.keys(viewport).length) {
   store.dispatch({
     type: 'initial-state/LOADED',
     payload: viewport,
+  });
+  store.dispatch({
+    type: SET_IS_EXPANDED,
+    payload: !(window.innerWidth < 600 || window.innerHeight < 700),
   });
 }
 
