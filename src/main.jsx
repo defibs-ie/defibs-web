@@ -10,6 +10,7 @@ import karlaRegular from 'react-elemental-fonts/karla-regular';
 import reducer from './reducer';
 import { Header } from './header';
 import { AppContainer } from './app';
+import { SET_WINDOW_DIMENSIONS } from './context/actions';
 import { SET_IS_EXPANDED } from './control-panel/actions';
 
 bootstrap({
@@ -33,6 +34,16 @@ if (Object.keys(viewport).length) {
     payload: !(window.innerWidth < 600 || window.innerHeight < 700),
   });
 }
+
+window.addEventListener('resize', () => {
+  const { innerWidth: width, innerHeight: height } = window;
+  console.info('resize');
+  console.info(width, height);
+  store.dispatch({
+    type: SET_WINDOW_DIMENSIONS,
+    payload: { width, height },
+  });
+});
 
 /* Render */
 ReactDOM.render(
