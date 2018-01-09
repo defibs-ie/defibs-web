@@ -9,20 +9,16 @@ import withWindowDimensions from '../shared/withWindowDimensions';
 import { setWindowDimensions } from '../context/actions';
 
 class AppContainer extends Component {
-  componentWillMount() {
-    console.info('AppContainer.componentWillMount()');
-    this.props.handleWindowDimensionsChange();
-  }
 
-  componentDidUpdate() {
-    this.props.handleWindowDimensionsChange();
+  componentDidMount() {
+    this.props.setWindowDimensions(
+      window.innerWidth,
+      window.innerHeight,
+    );
   }
 
 	render() {
-    // const { isCompact } = this.props;
-    const isCompact = window.innerWidth < 600 || window.innerHeight < 700;
-    console.info(`Am I compact? ${isCompact}`);
-    console.info(this.props);
+    const { isCompact } = this.props;
 
     const baseStyle = {
       position: 'absolute',
@@ -62,21 +58,9 @@ class AppContainer extends Component {
 }
 
 function mapState(state) {
-  // console.info('compact? ' + state.context.isCompact);
   return {
     isCompact: state.context.isCompact,
   };
 }
 
-function mergeProps(stateProps, dispatchProps, ownProps) {
-  return {
-    handleWindowDimensionsChange,
-  };
-
-  function handleWindowDimensionsChange() {
-    console.info(`HANDLING: ${ownProps.width}, ${ownProps.height}`);
-    return dispatchProps.setWindowDimensions(ownProps.width, ownProps.height);
-  }
-}
-
-export default withWindowDimensions(connect(mapState, { setWindowDimensions }, mergeProps)(AppContainer));
+export default connect(mapState, { setWindowDimensions })(AppContainer);
