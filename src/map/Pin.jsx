@@ -11,12 +11,13 @@ export default class Pin extends PureComponent {
     const { size=41.25, onClick } = this.props;
     return (
       <svg
-        width={size * 29 / 41.25}
+        width={Math.ceil(size * 29 / 41.25)}
         height={size}
         viewBox="0 0 29 41.25"
         onClick={onClick}
         style={{
           ...pinStyle,
+          transform: `translateY(-${size/2}px)`,
           ...this.props.style,
         }}
       >
