@@ -16,7 +16,7 @@ const navStyle = {
   bottom: 0,
   right: 0,
   padding: '10px',
-  zIndex: 5,
+  zIndex: 2,
 };
 
 class MapContainer extends Component {
