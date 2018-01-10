@@ -45,6 +45,11 @@ class ControlPanelContainer extends Component {
       width: 'inherit',
     };
 
+    // TODO: ugh, this hack
+    const compactExpandedStyle = {
+      maxHeight: '100vh',
+    };
+
     return (
       <Spacing
         size="large"
@@ -52,6 +57,7 @@ class ControlPanelContainer extends Component {
         ...baseStyle,
         ...isCompact && compactStyle,
         ...isExpanded && expandedStyle,
+        ...isCompact && isExpanded && compactExpandedStyle,
       }}
         right
         left
