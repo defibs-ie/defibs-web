@@ -6,15 +6,16 @@ import reduxThunk from 'redux-thunk';
 import { bootstrap } from 'react-elemental';
 import karlaBold from 'react-elemental-fonts/karla-bold';
 import karlaRegular from 'react-elemental-fonts/karla-regular';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import reducer from './reducer';
-import { Header } from './header';
 import { AppContainer } from './app';
+import { AboutPageContainer } from './about';
 import { SET_WINDOW_DIMENSIONS } from './context/actions';
 import { SET_IS_EXPANDED } from './control-panel/actions';
 
 bootstrap({
-	primary: {
+  primary: {
     regular: karlaRegular,
     bold: karlaBold,
   },
@@ -37,8 +38,8 @@ if (Object.keys(viewport).length) {
 
 window.addEventListener('resize', () => {
   const { innerWidth: width, innerHeight: height } = window;
-  console.info('resize');
-  console.info(width, height);
+  // console.info('resize');
+  // console.info(width, height);
   store.dispatch({
     type: SET_WINDOW_DIMENSIONS,
     payload: { width, height },
@@ -48,7 +49,12 @@ window.addEventListener('resize', () => {
 /* Render */
 ReactDOM.render(
   <Provider store={store}>
-    <AppContainer />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={AppContainer} />
+        <Route path="/about" component={AboutPageContainer} />
+      </Switch>
+    </BrowserRouter>
   </Provider>,
   document.querySelector('#react-root'),
 );

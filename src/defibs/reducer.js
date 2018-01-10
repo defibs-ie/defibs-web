@@ -10,14 +10,22 @@ import {
 export default function reducer(state = {
   defibs: [],
   defibDetail: null,
+  isFetching: false,
+  isFetchingDetail: false,
 }, action) {
   switch (action.type) {
+    case DEFIB_DETAIL_ERROR:
+      return { ...state, isFetchingDetail: false };
+    case DEFIB_DETAIL_FETCHING:
+      return { ...state, isFetchingDetail: true };
     case DEFIB_DETAIL_SUCCESS:
-      return { ...state, defibDetail: action.payload };
-    case DEFIB_LIST_SUCCESS:
-      return { ...state, defibs: action.payload };
+      return { ...state, defibDetail: action.payload, isFetchingDetail: false };
     case DEFIB_LIST_ERROR:
-      return { ...state, defibs: [] };
+      return { ...state, defibs: [], isFetching: false };
+    case DEFIB_LIST_FETCHING:
+      return { ...state, isFetching: true };
+    case DEFIB_LIST_SUCCESS:
+      return { ...state, defibs: action.payload, isFetching: false };
     default:
       return state;
   }

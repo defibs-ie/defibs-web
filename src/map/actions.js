@@ -1,7 +1,7 @@
 export const SET_VIEWPORT = 'map/SET_VIEWPORT';
 
 function persistViewportState({ viewport }) {
-  return (dispatch) => {
+  return () => {
     localStorage.setItem('viewport', JSON.stringify(viewport));
   };
 }
@@ -12,4 +12,7 @@ function setViewport(viewport) {
   };
 }
 
-export { persistViewportState };
+export {
+  persistViewportState,
+  setViewport,
+};

@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MapGL, {
   FlyToInterpolator,
   Marker,
-  Popup,
   NavigationControl,
-  } from 'react-map-gl';
+} from 'react-map-gl';
 
 import { fetchDefibDetail, fetchDefibs } from '../defibs/actions';
 import { persistViewportState, setViewport } from './actions';
-import { setWindowDimensions } from '../context/actions';
 import Pin from './Pin';
 
 const navStyle = {
@@ -21,7 +20,6 @@ const navStyle = {
 };
 
 class MapContainer extends Component {
-
   constructor(...args) {
     super(...args);
     this.state = { viewport: this.props.viewport };
@@ -42,10 +40,12 @@ class MapContainer extends Component {
 
   handleMarkerClick(defib) {
     const { lat, lon, id } = defib;
+
     // Retrieve defib info
     this.props.fetchDefibDetail(id);
-    // Move to the marker position
-    this.setState({ 
+
+    // Fly to the marker position
+    this.setState({
       viewport: {
         ...this.state.viewport,
         latitude: Number(lat),
@@ -58,11 +58,12 @@ class MapContainer extends Component {
   }
 
   resize() {
+    // Update the viewport state to resize the map
     this.setState({
       viewport: {
         ...this.state.viewport,
-        width: this.props.width || window.innerWidth,
-        height: this.props.height || window.innerHeight,
+        width: window.innerWidth,
+        height: window.innerHeight,
       },
     });
   }
@@ -73,35 +74,20 @@ class MapContainer extends Component {
   }
 
   render() {
-
     while (!this.props.viewport) {
       return null;
     }
 
-		const styles = {
-			marker: {
-				width: 30,
-				height: 30,
-				borderRadius: '50%',
-				backgroundColor: '#E0E0E0',
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				border: '2px solid #C9C9C9',
-        cursor: 'pointer',
-			},
-		};
     const { defibs } = this.props;
     const { viewport } = this.state;
 
     return (
-      <div style={{ position: 'absolute' }}>
+      <div>
         <MapGL
           {...viewport}
           mapStyle="mapbox://styles/mapbox/dark-v9"
           mapboxApiAccessToken={ACCESS_TOKEN}
           onViewportChange={this.updateViewport}
-          ref={(map) => { this.map = map; }}
         >
           {defibs.map(defib => (
             <Marker
@@ -124,6 +110,22 @@ class MapContainer extends Component {
   }
 }
 
+MapContainer.propTypes = {
+  defibs: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  fetchDefibDetail: PropTypes.func.isRequired,
+  fetchDefibs: PropTypes.func.isRequired,
+  persistViewportState: PropTypes.func.isRequired,
+  viewport: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+    zoom: PropTypes.number.isRequired,
+    bearing: PropTypes.number.isRequired,
+    pitch: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+  }),
+};
+
 MapContainer.defaultProps = {
   defibs: [],
   viewport: {
@@ -138,7 +140,6 @@ MapContainer.defaultProps = {
 };
 
 function mapState(state) {
-  console.info(state);
   return {
     defibs: state.defibs.defibs,
     viewport: state.map.viewport,
@@ -149,6 +150,5 @@ export default connect(mapState, {
   fetchDefibDetail,
   fetchDefibs,
   persistViewportState,
-  setWindowDimensions,
   setViewport,
 })(MapContainer);

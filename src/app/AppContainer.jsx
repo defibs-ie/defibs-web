@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spacing } from 'react-elemental';
 
 import { MapContainer } from '../map';
-import { HeaderContainer } from '../header';
 import { ControlPanelContainer } from '../control-panel';
-import withWindowDimensions from '../shared/withWindowDimensions';
 import { setWindowDimensions } from '../context/actions';
+import { LayoutContainer } from '../layout';
 
 class AppContainer extends Component {
-
   componentDidMount() {
     this.props.setWindowDimensions(
       window.innerWidth,
@@ -17,11 +16,12 @@ class AppContainer extends Component {
     );
   }
 
-	render() {
+  render() {
     const { isCompact } = this.props;
 
     const baseStyle = {
       position: 'absolute',
+      top: 0,
       transition: 'all 0.15s ease',
       zIndex: 2,
     };
@@ -38,7 +38,7 @@ class AppContainer extends Component {
 
     return (
       <div>
-        <HeaderContainer />
+        <LayoutContainer isMap selectedSidebarItem="home" />
         <div style={{ width: '100%', height: '100%' }}>
           <MapContainer />
           <Spacing
@@ -54,8 +54,13 @@ class AppContainer extends Component {
         </div>
       </div>
     );
-	}
+  }
 }
+
+AppContainer.propTypes = {
+  isCompact: PropTypes.bool.isRequired,
+  setWindowDimensions: PropTypes.func.isRequired,
+};
 
 function mapState(state) {
   return {

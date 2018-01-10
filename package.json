@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "dist": "rimraf dist/ && NODE_ENV=production webpack",
+    "lint": "eslint 'src/**/*.@(js|jsx)'",
     "profile": "webpack --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json",
     "start": "webpack-dev-server --devtool eval --progress --hot --content-base src"
   },
@@ -23,6 +24,8 @@
     "react-map-gl": "^3.2.0-alpha.3",
     "react-mapbox-gl": "^3.4.1",
     "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
@@ -33,6 +36,12 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
     "dotenv": "^4.0.0",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.6.1",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
     "html-webpack-plugin": "^2.30.1",
     "rimraf": "^2.6.2",
     "webpack": "^3.10.0",
