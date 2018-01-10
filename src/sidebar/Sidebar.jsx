@@ -10,6 +10,7 @@ export const SIDEBAR_WIDTH = '230px';
 const SIDEBAR_ITEM_LIST = [
   { value: 'home', label: 'Home', href: '/' },
   { value: 'about', label: 'About', href: '/about' },
+  { value: 'submit', label: 'Submit', href: '/submit' },
 ];
 
 export default function Sidebar(props) {

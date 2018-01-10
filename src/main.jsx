@@ -6,11 +6,14 @@ import reduxThunk from 'redux-thunk';
 import { bootstrap } from 'react-elemental';
 import karlaBold from 'react-elemental-fonts/karla-bold';
 import karlaRegular from 'react-elemental-fonts/karla-regular';
+import sourceCodeProMedium from 'react-elemental-fonts/source-code-pro-medium';
+import sourceCodeProRegular from 'react-elemental-fonts/source-code-pro-regular';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import reducer from './reducer';
 import { AppContainer } from './app';
 import { AboutPageContainer } from './about';
+import { SubmitContainer } from './submit';
 import { SET_WINDOW_DIMENSIONS } from './context/actions';
 import { SET_IS_EXPANDED } from './control-panel/actions';
 
@@ -18,6 +21,10 @@ bootstrap({
   primary: {
     regular: karlaRegular,
     bold: karlaBold,
+  },
+  secondary: {
+    regular: sourceCodeProRegular,
+    bold: sourceCodeProMedium,
   },
 });
 
@@ -53,6 +60,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={AppContainer} />
         <Route path="/about" component={AboutPageContainer} />
+        <Route path="/submit" component={SubmitContainer} />
       </Switch>
     </BrowserRouter>
   </Provider>,

@@ -47,9 +47,9 @@ class LayoutContainer extends Component {
     return (
       <div>
         <div style={{
+        maxWidth: '100%',
         position: 'absolute',
         zIndex: 1,
-        // top: 0,
       }}
         >
           <div style={{ ...baseStyle, ...isCompact && compactStyle }}>
@@ -96,7 +96,12 @@ class LayoutContainer extends Component {
           </button>
         )}
 
-          <div style={{ marginLeft: contentMargin, transition: 'all 0.15s ease' }}>
+        <div style={{
+          marginLeft: contentMargin,
+          transition: 'all 0.15s ease',
+          width: `calc(100% + ${contentMargin})`,
+          maxWidth: `calc(36em + ${contentMargin})`,
+        }}>
             <Spacing size="huge" left right padding>
               <Spacing size="large" bottom />
               {children}
