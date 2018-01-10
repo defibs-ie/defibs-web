@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { LayoutContainer } from '../layout';
 import AboutPage from './AboutPage';
+import { fetchContributorList } from '../contributors/actions';
 
-export default class AboutPageContainer extends Component {
+class AboutPageContainer extends Component {
   componentDidMount() {
+    this.props.fetchContributorList();
   }
 
   render() {
@@ -21,8 +24,17 @@ export default class AboutPageContainer extends Component {
 
 AboutPageContainer.propTypes = {
   contributors: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  fetchContributorList: PropTypes.func.isRequired,
 };
 
 AboutPageContainer.defaultProps = {
-  contributors: null,
+  contributors: [],
 };
+
+function mapState({ contributors }) {
+  return {
+    contributors: contributors.contributorList,
+  };
+}
+
+export default connect(mapState, { fetchContributorList })(AboutPageContainer);
