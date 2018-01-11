@@ -54,7 +54,7 @@ class SubmitContainer extends Component {
     const formData = new FormData();
     formData.append('data', data);
     formData.append('file', file);
-    formData.append('email', email || '')
+    formData.append('email', email || null)
     formData.append('lat', lat);
     formData.append('lon', lon);
     formData.append('notes', notes || '');
