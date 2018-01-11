@@ -20,9 +20,21 @@ class SubmitSuccessContainer extends Component {
             </Text>
           </Spacing>
           <Spacing top>
-            <Button onClick={() => history.push('/')} text="Back to map" />
+            <Button
+              onClick={() => history.push('/')}
+              style={{
+                margin: '8px',
+              }}
+              text="Back to map"
+            />
             {' '}
-            <Button onClick={() => history.push('/submit')} text="Submit another" />
+            <Button
+              onClick={() => history.push('/submit')}
+              style={{
+                margin: '8px',
+              }}
+              text="Submit another"
+            />
           </Spacing>
         </Spacing>
       </LayoutContainer>
