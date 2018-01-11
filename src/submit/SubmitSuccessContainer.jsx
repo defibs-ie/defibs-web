@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Spacing, Text } from 'react-elemental';
+import { Button, Spacing, Text } from 'react-elemental';
+import { withRouter } from 'react-router';
 
 import { LayoutContainer } from '../layout';
 
 class SubmitSuccessContainer extends Component {
   render() {
+    const { history } = this.props;
     return (
       <LayoutContainer selectedSidebarItem="submit">
         <Spacing top left right bottom>
@@ -17,10 +19,15 @@ class SubmitSuccessContainer extends Component {
               If we need more details, we'll contact you at the email address you supplied.
             </Text>
           </Spacing>
+          <Spacing top>
+            <Button onClick={() => history.push('/')} text="Back to map" />
+            {' '}
+            <Button onClick={() => history.push('/submit')} text="Submit another" />
+          </Spacing>
         </Spacing>
       </LayoutContainer>
     );
   }
 }
 
-export default SubmitSuccessContainer;
+export default withRouter(SubmitSuccessContainer);
