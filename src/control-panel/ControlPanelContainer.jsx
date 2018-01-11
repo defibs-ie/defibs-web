@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spacing, Text } from 'react-elemental';
+import Menu from 'react-icons/lib/md/menu';
+
 import Header from './Header';
 import DefibDetailContainer from './DefibDetailContainer';
 import Pin from '../map/Pin';
@@ -80,7 +82,10 @@ class ControlPanelContainer extends Component {
 
           {isExpanded && (
           <Spacing size="large" top bottom>
-              {defib ? renderDefibDetail({ defib }) : renderEmptyDetail() }
+            {defib
+              ? renderDefibDetail({ defib })
+              : renderEmptyDetail({ isCompact })
+            }
           </Spacing>
         )}
         </Spacing>
@@ -108,21 +113,36 @@ renderDefibDetail.propTypes = {
   defib: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-function renderEmptyDetail() {
+function renderEmptyDetail({ isCompact }) {
   return (
-    <Text>
-      Click on a defibrillator marker
-      {' '}
-      <Pin
-        size={20}
-        style={{
-          transform: 'none',
-          cursor: 'default',
-        }}
-      />
-      {' '}
-      for more information.
-    </Text>
+    <Fragment>
+      <Spacing bottom>
+        <Text>
+          Click on a defibrillator marker
+          {' '}
+          <Pin
+            size={20}
+            style={{
+              transform: 'none',
+              cursor: 'default',
+            }}
+          />
+          {' '}
+          for more information.
+        </Text>
+      </Spacing>
+      {isCompact && (
+        <Spacing>
+          <Text>
+            Click on the menu icon
+            {' '}
+            <Menu />
+            {' '}
+            for more options.
+          </Text>
+        </Spacing>
+      )}
+    </Fragment>
   );
 }
 
