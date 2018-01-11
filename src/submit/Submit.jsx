@@ -42,9 +42,10 @@ export default class Submit extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
     const round = (f) => Math.round(f * 10**6) / 10**6;
-    const { notes } = this.props;
+    const { email, notes } = this.props;
     const { viewport: { latitude, longitude } } = this.state;
     const data = {
+      email,
       notes,
       lat: round(latitude),
       lon: round(longitude),
@@ -53,7 +54,6 @@ export default class Submit extends Component {
   }
 
   updateViewport(viewport) {
-    // const { viewport } = this.state;
     const { handleChange } = this.props;
 
     this.setState({ viewport });
@@ -65,6 +65,7 @@ export default class Submit extends Component {
     const {
       deviceWidth,
       deviceHeight,
+      email,
       errors,
       handleChange,
       isSubmitting,
@@ -81,11 +82,18 @@ export default class Submit extends Component {
         <Text>Help us out by submitting a defibrillator location.</Text>
       </Spacing>
       <form id="submit-form">
-        <Label
-          label="Location"
-          sublabel="Move the map under the marker to place this defibrillator."
-        />
         <Spacing bottom>
+        <Label
+          label="Your email"
+          sublabel="We'll use this to contact you if we have questions about this defib."
+        />
+          <TextField value={email} onChange={handleChange('email')} />
+        </Spacing>
+        <Spacing bottom>
+          <Label
+            label="Location"
+            sublabel="Move the map under the marker to place this defibrillator."
+          />
           <div style={{ width: '100%', height: '300px' }}>
             <AutoSizer>
               {({ height, width }) => (

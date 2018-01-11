@@ -14,6 +14,7 @@ class SubmitContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
+      email: '',
       notes: '',
       pristine: true,
       width: 0,
@@ -44,7 +45,7 @@ class SubmitContainer extends Component {
 
   render() {
     const { isSubmitting } = this.props;
-    const { notes, pristine, width } = this.state;
+    const { email, notes, pristine, width } = this.state;
 
     console.info(`SubmitContainer.componentDidMount(): ${this.props.width} x ${this.props.height}`);
 
@@ -57,6 +58,7 @@ class SubmitContainer extends Component {
           ref={c => this.submitComponent = c}
         >
           <Submit
+            email={email}
             handleChange={this.handleChange}
             notes={notes}
             pristine={pristine}
