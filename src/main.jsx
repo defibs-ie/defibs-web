@@ -13,7 +13,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import reducer from './reducer';
 import { AppContainer } from './app';
 import { AboutPageContainer } from './about';
-import { SubmitContainer } from './submit';
+import {
+  SubmitContainer,
+  SubmitSuccessContainer,
+} from './submit';
 import { SET_WINDOW_DIMENSIONS } from './context/actions';
 import { SET_IS_EXPANDED } from './control-panel/actions';
 
@@ -60,6 +63,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={AppContainer} />
         <Route path="/about" component={AboutPageContainer} />
+        <Route path="/submit-success" component={SubmitSuccessContainer} />
         <Route path="/submit" component={SubmitContainer} />
       </Switch>
     </BrowserRouter>

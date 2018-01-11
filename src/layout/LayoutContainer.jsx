@@ -29,6 +29,7 @@ class LayoutContainer extends Component {
       backgroundColor: '#1F2629',
       height: '100vh',
       left: 0,
+      maxWidth: '100vw',
       overflowX: 'hidden',
       overflowY: 'auto',
       position: 'fixed',
@@ -47,8 +48,9 @@ class LayoutContainer extends Component {
     return (
       <div>
         <div style={{
-        maxWidth: '100%',
+        // maxWidth: '100%',
         position: 'absolute',
+        // width: '100%',
         zIndex: 1,
       }}
         >
@@ -96,12 +98,15 @@ class LayoutContainer extends Component {
           </button>
         )}
 
-        <div style={{
-          marginLeft: contentMargin,
-          transition: 'all 0.15s ease',
-          width: `calc(100% + ${contentMargin})`,
-          maxWidth: `calc(36em + ${contentMargin})`,
-        }}>
+        <div
+          style={{
+            marginLeft: contentMargin,
+            transition: 'all 0.15s ease',
+            maxWidth: `calc(100vw - ${contentMargin})`,
+            width: '100%',
+          }}
+          id="outer-thing"
+        >
             <Spacing size="huge" left right padding>
               <Spacing size="large" bottom />
               {children}

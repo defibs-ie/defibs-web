@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Spacing, Text, colors } from 'react-elemental';
 
 export default function AboutPage(props) {
@@ -13,7 +14,7 @@ export default function AboutPage(props) {
       </Text>
       <Spacing top>
         <Text>
-          You could probably help us, if we had finished coding the submission form.
+          You can help out by <Link to="/submit">submitting a missing defib</Link>.
         </Text>
       </Spacing>
       <Spacing top>

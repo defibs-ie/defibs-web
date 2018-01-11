@@ -15,8 +15,9 @@ export default class Submit extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.resize = this.resize.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
-    const { width } = props;
+    const width = 0;
     this.state = {
       viewport: {
         width,
@@ -31,19 +32,37 @@ export default class Submit extends Component {
     };
   }
 
+  componentDidMount() {
+  }
+
+  componentWillUnmount() {
+  }
+
+  resize() {
+    const width = (document.querySelector('#outer-thing').clientWidth);
+    const { viewport } = this.state;
+    this.setState({ viewport: { ...viewport, width } });
+  }
+
   handleSubmit(evt) {
     evt.preventDefault();
+    const round = (f) => Math.round(f * 10**6) / 10**6;
     const { notes } = this.props;
     const { viewport: { latitude, longitude } } = this.state;
     const data = {
       notes,
-      lat: latitude,
-      lon: longitude,
+      lat: round(latitude),
+      lon: round(longitude),
     };
+    this.props.handleSubmit(data);
   }
 
   updateViewport(viewport) {
-    const { width } = this.props;
+    const { viewport: { width } } = this.state;
+    const { handleChange } = this.props;
+
+    handleChange('viewport')({ target: { value: 0 } });
+
     const height = Math.min(
       window.innerHeight - 48,
       Math.max(200, Math.min(width, 400)),
@@ -57,18 +76,35 @@ export default class Submit extends Component {
   }
 
   render() {
-    const { handleChange, isSubmitting, notes, width } = this.props;
+    const {
+      deviceWidth,
+      deviceHeight,
+      errors,
+      handleChange,
+      isSubmitting,
+      notes,
+      pristine,
+    } = this.props;
+
     const { viewport } = this.state;
-    const height = Math.max(200, Math.min(width, 400));
+    // const width = viewport.width;
+    // const height = Math.max(200, Math.min(width, 400));
+    const width = deviceWidth - 200;
+    const height = 200;
+    // const width  =0;
+    // const height = 0;
 
     return (
-    <Spacing top left right bottom style={{ maxWidth: '36em' }}>
-      <Text size="beta">Submit</Text>
+    <Spacing top left right bottom>
+      <Text size="beta" bold>Submit a defib</Text>
       <Spacing top bottom>
         <Text>Help us out by submitting a defibrillator location.</Text>
       </Spacing>
-      <form>
-        <Text>Drag the map around to place the defib marker.</Text>
+      <form id="submit-form">
+        <Label
+          label="Location"
+          sublabel="Move the map under the marker to place this defibrillator."
+        />
         <Spacing bottom>
           <div style={{
             width,
@@ -84,7 +120,7 @@ export default class Submit extends Component {
           </div>
           <MapGL
             {...viewport}
-            width={width - 24}
+            width={width}
             height={height}
             mapboxApiAccessToken={ACCESS_TOKEN}
             onViewportChange={this.updateViewport}
@@ -100,9 +136,10 @@ export default class Submit extends Component {
           {isSubmitting
             ? <Button><Spinner size="gamma" /></Button>
             : <Button
+              disabled={pristine || errors}
               size="alpha"
               text="Submit"
-              type="button"
+              type="submit"
               onClick={this.handleSubmit}
             />
           }

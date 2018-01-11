@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Text } from 'react-elemental';
 
@@ -11,61 +12,71 @@ class SubmitContainer extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.resize = this.resize.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       notes: '',
+      pristine: true,
       width: 0,
     };
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resize);
-    this.resize();
+    console.info(this.props);
+    console.info(`SubmitContainer.componentDidMount(): ${this.props.width} x ${this.props.height}`);
+    window.dispatchEvent(new Event('resize'));
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resize);
+  componentDidUpdate() {
   }
 
   handleChange(which) {
-    return ({ target: { value } }) =>  this.setState({ [which]: value });
+    return ({ target: { value } }) =>  this.setState({
+      pristine: false,
+      [which]: value,
+    });
   }
 
-  resize() {
-    console.info('sc resize');
-    console.info(this.submitComponent.clientWidth);
-    this.setState({
-      width: this.submitComponent.clientWidth
-    });
+  handleSubmit(data) {
+    const { history } = this.props;
+    this.props.submitDefib(data)
+      .then(() => history.push('/submit-success'));
   }
 
   render() {
     const { isSubmitting } = this.props;
-    const { notes, width } = this.state;
+    const { notes, pristine, width } = this.state;
+
+    console.info(`SubmitContainer.componentDidMount(): ${this.props.width} x ${this.props.height}`);
 
     return (
       <LayoutContainer
         selectedSidebarItem="submit"
       >
         <div
-          ref={c => this.submitComponent = c} style={{ width: '100%' }}
-          style={{ width: '100%', maxWidth: '100%' }}
+          id="referenceWidth"
+          ref={c => this.submitComponent = c}
         >
           <Submit
             handleChange={this.handleChange}
             notes={notes}
-            width={width}
+            pristine={pristine}
             isSubmitting={isSubmitting}
-            submitDefib={this.props.submitDefib}
+            handleSubmit={this.handleSubmit}
+            deviceWidth={this.props.width}
+            deviceHeight={this.props.height}
           />
-      </div>
+        </div>
       </LayoutContainer>
     );
   }
 }
 
-function mapState({ submit: { isSubmitting } }) {
+function mapState({
+  context,
+  submit: { isSubmitting },
+}) {
   return {
+    ...context,
     isSubmitting,
   };
 }

@@ -1,2 +1,3 @@
 import SubmitContainer from './SubmitContainer';
-export { SubmitContainer };
+import SubmitSuccessContainer from './SubmitSuccessContainer';
+export { SubmitContainer, SubmitSuccessContainer };

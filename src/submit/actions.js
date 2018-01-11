@@ -11,7 +11,7 @@ function submitDefib(data) {
     dispatch({ type: DEFIB_SUBMIT_PENDING });
     return axios.post(url, data)
       .then((response) => {
-        // dispatch({ type: DEFIB_SUBMIT_SUCCESS });
+        return dispatch({ type: DEFIB_SUBMIT_SUCCESS });
       });
   }
 }
