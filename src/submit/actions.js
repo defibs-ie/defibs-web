@@ -7,9 +7,13 @@ export const DEFIB_SUBMIT_ERROR = 'submit/DEFIB_SUBMIT_ERROR';
 function submitDefib(data) {
   const url = `${API_URL}/defibs/submit/`;
   return (dispatch) => {
-    console.info('submitting dispatchy ting');
+    const config = { headers: { 'content-type': 'multipart/form-data' } };
     dispatch({ type: DEFIB_SUBMIT_PENDING });
-    return axios.post(url, data)
+    return axios.post(
+      url,
+      data,
+      // config,
+    )
       .then((response) => {
         return dispatch({ type: DEFIB_SUBMIT_SUCCESS });
       });

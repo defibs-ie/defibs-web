@@ -18,7 +18,7 @@ class SubmitContainer extends Component {
     this.state = {
       email: '',
       notes: '',
-      files: [],
+      file: null,
       pristine: true,
       width: 0,
     };
@@ -42,23 +42,30 @@ class SubmitContainer extends Component {
 
   handleClear(evt) {
     evt.stopPropagation();
-    this.setState({ files: [] });
+    this.setState({ file: null });
   }
 
   handleSubmit(data) {
     const { history } = this.props;
-    this.props.submitDefib(data)
+    const { file } = this.state;
+
+    this.props.submitDefib({ ...data, file })
       .then(() => history.push('/submit-success'));
   }
 
   onDrop(files) {
+    const file = files[0];
     console.info('onDrop');
-    this.setState({ files });
+    console.info(files[0]);
+    const formData = new FormData();
+    formData.append('file', file);
+    this.setState({ formData });
+    this.setState({ file });
   }
 
   render() {
     const { isSubmitting } = this.props;
-    const { email, files, notes, pristine, width } = this.state;
+    const { email, file, notes, pristine, width } = this.state;
 
     console.info(`SubmitContainer.componentDidMount(): ${this.props.width} x ${this.props.height}`);
 
@@ -72,7 +79,7 @@ class SubmitContainer extends Component {
         >
           <Submit
             email={email}
-            files={files}
+            file={file}
             handleChange={this.handleChange}
             handleClear={this.handleClear}
             notes={notes}

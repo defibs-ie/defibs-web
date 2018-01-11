@@ -57,11 +57,8 @@ export default class Submit extends Component {
 
   updateViewport(viewport) {
     const { handleChange } = this.props;
-
     this.setState({ viewport });
   }
-  /*
-            */
 
   render() {
     const {
@@ -69,7 +66,7 @@ export default class Submit extends Component {
       deviceHeight,
       email,
       errors,
-      files,
+      file,
       handleChange,
       handleClear,
       isSubmitting,
@@ -92,7 +89,11 @@ export default class Submit extends Component {
           label="Your email"
           sublabel="We'll use this to contact you if we have questions about this defib."
         />
-          <TextField value={email} onChange={handleChange('email')} />
+        <TextField
+          type='email'
+          value={email}
+          onChange={handleChange('email')}
+        />
         </Spacing>
         <Spacing bottom>
           <Label
@@ -101,7 +102,7 @@ export default class Submit extends Component {
           />
           <Dropzone
             accept="image/*"
-            files={files}
+            file={file}
             multiple={false}
             onDrop={onDrop}
             style={{
@@ -111,17 +112,17 @@ export default class Submit extends Component {
               borderStyle: 'dashed',
               cursor: 'pointer',
               display: 'flex',
-              height: files.length ? '400px' : '200px',
+              height: file ? '400px' : '200px',
               justifyContent: 'space-around',
               position: 'relative',
             }}
           >
-            {files.length
+            {file
             ? (
               <div
                 style={{
                   alignItems: 'flex-start',
-                  backgroundImage: `url(${files[0].preview})`,
+                  backgroundImage: `url(${file.preview})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
