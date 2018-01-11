@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import MapGL from 'react-map-gl';
 import {
   Button,
@@ -9,19 +9,20 @@ import {
   TextArea,
   TextField,
 } from 'react-elemental';
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
+
 import Pin from '../map/Pin';
 
 export default class Submit extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.resize = this.resize.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
     const width = 0;
     this.state = {
       viewport: {
-        width,
-        height: Math.max(200, Math.min(width, 400)),
+        // width,
+        // height: Math.max(200, Math.min(width, 400)),
         // Defaults put us in the centre of Ireland
         latitude: 53.28213993360018,
         longitude: -7.820067649242004,
@@ -38,12 +39,6 @@ export default class Submit extends Component {
   componentWillUnmount() {
   }
 
-  resize() {
-    const width = (document.querySelector('#outer-thing').clientWidth);
-    const { viewport } = this.state;
-    this.setState({ viewport: { ...viewport, width } });
-  }
-
   handleSubmit(evt) {
     evt.preventDefault();
     const round = (f) => Math.round(f * 10**6) / 10**6;
@@ -58,22 +53,13 @@ export default class Submit extends Component {
   }
 
   updateViewport(viewport) {
-    const { viewport: { width } } = this.state;
+    // const { viewport } = this.state;
     const { handleChange } = this.props;
 
-    handleChange('viewport')({ target: { value: 0 } });
-
-    const height = Math.min(
-      window.innerHeight - 48,
-      Math.max(200, Math.min(width, 400)),
-    );
-    this.setState({ viewport: {
-        ...viewport,
-        width,
-        height,
-      }
-    });
+    this.setState({ viewport });
   }
+  /*
+            */
 
   render() {
     const {
@@ -87,12 +73,6 @@ export default class Submit extends Component {
     } = this.props;
 
     const { viewport } = this.state;
-    // const width = viewport.width;
-    // const height = Math.max(200, Math.min(width, 400));
-    const width = deviceWidth - 200;
-    const height = 200;
-    // const width  =0;
-    // const height = 0;
 
     return (
     <Spacing top left right bottom>
@@ -106,25 +86,33 @@ export default class Submit extends Component {
           sublabel="Move the map under the marker to place this defibrillator."
         />
         <Spacing bottom>
-          <div style={{
-            width,
-            height,
-            position: 'absolute',
-            zIndex: 2,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-            pointerEvents: 'none',
-          }}>
-            <Pin />
+          <div style={{ width: '100%', height: '300px' }}>
+            <AutoSizer>
+              {({ height, width }) => (
+              <Fragment>
+              <div style={{
+                width,
+                height,
+                position: 'absolute',
+                zIndex: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+                pointerEvents: 'none',
+              }}>
+                <Pin />
+              </div>
+                <MapGL
+                  {...viewport}
+                  width={width}
+                  height={height}
+                  mapboxApiAccessToken={ACCESS_TOKEN}
+                  onViewportChange={this.updateViewport}
+                />
+              </Fragment>
+              )}
+            </AutoSizer>
           </div>
-          <MapGL
-            {...viewport}
-            width={width}
-            height={height}
-            mapboxApiAccessToken={ACCESS_TOKEN}
-            onViewportChange={this.updateViewport}
-          />
         </Spacing>
 
         <Spacing bottom>

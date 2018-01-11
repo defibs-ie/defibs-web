@@ -29,7 +29,6 @@ class LayoutContainer extends Component {
       backgroundColor: '#1F2629',
       height: '100vh',
       left: 0,
-      maxWidth: '100vw',
       overflowX: 'hidden',
       overflowY: 'auto',
       position: 'fixed',

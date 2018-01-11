@@ -9,6 +9,7 @@ import karlaRegular from 'react-elemental-fonts/karla-regular';
 import sourceCodeProMedium from 'react-elemental-fonts/source-code-pro-medium';
 import sourceCodeProRegular from 'react-elemental-fonts/source-code-pro-regular';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import 'react-virtualized/styles.css';
 
 import reducer from './reducer';
 import { AppContainer } from './app';

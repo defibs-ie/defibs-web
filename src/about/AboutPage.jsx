@@ -17,7 +17,7 @@ export default function AboutPage(props) {
           You can help out by <Link to="/submit">submitting a missing defib</Link>.
         </Text>
       </Spacing>
-      <Spacing top>
+      {false && (<Spacing top>
         <Text size="epsilon">Hall of Fame</Text>
         <table style={{ width: '100%' }}>
           <tbody>
@@ -34,6 +34,7 @@ export default function AboutPage(props) {
           </tbody>
         </table>
       </Spacing>
+      )}
     </Spacing>
   );
 }
