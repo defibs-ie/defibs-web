@@ -82,7 +82,6 @@ class MapContainer extends Component {
     const { viewport } = this.state;
 
     return (
-      <div>
         <MapGL
           {...viewport}
           mapStyle="mapbox://styles/mapbox/dark-v9"
@@ -105,7 +104,6 @@ class MapContainer extends Component {
             <NavigationControl onViewportChange={this.updateViewport} />
           </div>
         </MapGL>
-      </div>
     );
   }
 }
