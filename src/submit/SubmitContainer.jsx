@@ -12,10 +12,13 @@ class SubmitContainer extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClear = this.handleClear.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onDrop = this.onDrop.bind(this);
     this.state = {
       email: '',
       notes: '',
+      files: [],
       pristine: true,
       width: 0,
     };
@@ -37,15 +40,25 @@ class SubmitContainer extends Component {
     });
   }
 
+  handleClear(evt) {
+    evt.stopPropagation();
+    this.setState({ files: [] });
+  }
+
   handleSubmit(data) {
     const { history } = this.props;
     this.props.submitDefib(data)
       .then(() => history.push('/submit-success'));
   }
 
+  onDrop(files) {
+    console.info('onDrop');
+    this.setState({ files });
+  }
+
   render() {
     const { isSubmitting } = this.props;
-    const { email, notes, pristine, width } = this.state;
+    const { email, files, notes, pristine, width } = this.state;
 
     console.info(`SubmitContainer.componentDidMount(): ${this.props.width} x ${this.props.height}`);
 
@@ -59,8 +72,11 @@ class SubmitContainer extends Component {
         >
           <Submit
             email={email}
+            files={files}
             handleChange={this.handleChange}
+            handleClear={this.handleClear}
             notes={notes}
+            onDrop={this.onDrop}
             pristine={pristine}
             isSubmitting={isSubmitting}
             handleSubmit={this.handleSubmit}

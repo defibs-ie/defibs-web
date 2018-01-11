@@ -8,8 +8,10 @@ import {
   Text,
   TextArea,
   TextField,
+  colors,
 } from 'react-elemental';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
+import Dropzone from 'react-dropzone';
 
 import Pin from '../map/Pin';
 
@@ -67,9 +69,12 @@ export default class Submit extends Component {
       deviceHeight,
       email,
       errors,
+      files,
       handleChange,
+      handleClear,
       isSubmitting,
       notes,
+      onDrop,
       pristine,
     } = this.props;
 
@@ -88,6 +93,65 @@ export default class Submit extends Component {
           sublabel="We'll use this to contact you if we have questions about this defib."
         />
           <TextField value={email} onChange={handleChange('email')} />
+        </Spacing>
+        <Spacing bottom>
+          <Label
+            label="Photo (optional)"
+            sublabel="Upload a photo of the defib"
+          />
+          <Dropzone
+            accept="image/*"
+            files={files}
+            multiple={false}
+            onDrop={onDrop}
+            style={{
+              alignItems: 'center',
+              borderWidth: '2px',
+              borderColor: colors.gray15,
+              borderStyle: 'dashed',
+              cursor: 'pointer',
+              display: 'flex',
+              height: files.length ? '400px' : '200px',
+              justifyContent: 'space-around',
+              position: 'relative',
+            }}
+          >
+            {files.length
+            ? (
+              <div
+                style={{
+                  alignItems: 'flex-start',
+                  backgroundImage: `url(${files[0].preview})`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  bottom: 0,
+                  display: 'flex',
+                  height: '100%',
+                  justifyContent: 'flex-end',
+                  left: 0,
+                  overflowX: 'hidden',
+                  overflowY: 'hidden',
+                  position: 'absolute',
+                  right: 0,
+                  top: 0,
+                }}
+              >
+                <Button
+                  onClick={handleClear}
+                  style={{
+                    marginTop: '24px',
+                    marginRight: '24px',
+                  }}
+                  text="Clear"
+                />
+              </div>
+            ) : (
+              <Text>
+                Drag and drop, or click to upload
+              </Text>
+            )}
+          </Dropzone>
         </Spacing>
         <Spacing bottom>
           <Label
@@ -124,7 +188,7 @@ export default class Submit extends Component {
         </Spacing>
 
         <Spacing bottom>
-          <Label label="Notes" sublabel="Optional notes about availability" />
+          <Label label="Notes (optional)" sublabel="Notes about availability, etc." />
           <TextArea value={notes} style={{ width: '100%' }} onChange={handleChange('notes')} />
         </Spacing>
 
