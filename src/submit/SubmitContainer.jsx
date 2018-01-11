@@ -25,8 +25,6 @@ class SubmitContainer extends Component {
   }
 
   componentDidMount() {
-    // console.info(this.props);
-    // console.info(`SubmitContainer.componentDidMount(): ${this.props.width} x ${this.props.height}`);
     window.dispatchEvent(new Event('resize'));
   }
 
@@ -49,18 +47,33 @@ class SubmitContainer extends Component {
     const { history } = this.props;
     const { file } = this.state;
 
-    this.props.submitDefib({ ...data, file })
+    const { email, lat, lon, notes } = data;
+
+    // Build a FormData object so that we can send an image along with
+    // the other data
+    const formData = new FormData();
+    formData.append('data', data);
+    formData.append('file', file);
+    formData.append('email', email || '')
+    formData.append('lat', lat);
+    formData.append('lon', lon);
+    formData.append('notes', notes || '');
+
+    // Send and redirect to the 'thanks' page
+    this.props.submitDefib(formData)
       .then(() => history.push('/submit-success'));
   }
 
   onDrop(files) {
+    // file is a File (although typeof returns 'object', thanks)
     const file = files[0];
-    console.info('onDrop');
-    console.info(files[0]);
     const formData = new FormData();
     formData.append('file', file);
     this.setState({ formData });
-    this.setState({ file });
+    this.setState({ file }, () => {
+      // goes into state as a file
+      console.info(this.state.file);
+    });
   }
 
   render() {
