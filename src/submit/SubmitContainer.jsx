@@ -25,8 +25,8 @@ class SubmitContainer extends Component {
   }
 
   componentDidMount() {
-    console.info(this.props);
-    console.info(`SubmitContainer.componentDidMount(): ${this.props.width} x ${this.props.height}`);
+    // console.info(this.props);
+    // console.info(`SubmitContainer.componentDidMount(): ${this.props.width} x ${this.props.height}`);
     window.dispatchEvent(new Event('resize'));
   }
 
@@ -66,8 +66,6 @@ class SubmitContainer extends Component {
   render() {
     const { isSubmitting } = this.props;
     const { email, file, notes, pristine, width } = this.state;
-
-    console.info(`SubmitContainer.componentDidMount(): ${this.props.width} x ${this.props.height}`);
 
     return (
       <LayoutContainer
