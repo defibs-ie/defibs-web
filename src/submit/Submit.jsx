@@ -10,6 +10,7 @@ import {
   TextField,
   colors,
 } from 'react-elemental';
+import AddAPhoto from 'react-icons/lib/md/add-a-photo';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import Dropzone from 'react-dropzone';
 
@@ -148,9 +149,12 @@ export default class Submit extends Component {
                 />
               </div>
             ) : (
-              <Text>
-                Drag and drop, or click to upload
-              </Text>
+              <AddAPhoto
+                style={{
+                  color: colors.gray50,
+                  fontSize: '48px',
+                }}
+              />
             )}
           </Dropzone>
         </Spacing>
