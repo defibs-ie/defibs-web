@@ -82,7 +82,7 @@ export default class Submit extends Component {
     <Spacing top left right bottom>
       <Text size="beta" bold>Submit a defib</Text>
       <Spacing top bottom>
-        <Text>Help us out by submitting a defibrillator location.</Text>
+        <Text color="gray70" size="delta">Help us out by submitting a defibrillator location.</Text>
       </Spacing>
       <form id="submit-form">
         <Spacing bottom>
