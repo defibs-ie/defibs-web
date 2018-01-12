@@ -18,6 +18,7 @@ import {
   SubmitContainer,
   SubmitSuccessContainer,
 } from './submit';
+import { ContactContainer } from './contact';
 import { SET_WINDOW_DIMENSIONS } from './context/actions';
 import { SET_IS_EXPANDED } from './control-panel/actions';
 
@@ -66,6 +67,7 @@ ReactDOM.render(
         <Route path="/about" component={AboutPageContainer} />
         <Route path="/submit-success" component={SubmitSuccessContainer} />
         <Route path="/submit" component={SubmitContainer} />
+        <Route path="/contact" component={ContactContainer} />
       </Switch>
     </BrowserRouter>
   </Provider>,

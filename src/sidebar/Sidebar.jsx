@@ -11,6 +11,7 @@ const SIDEBAR_ITEM_LIST = [
   { value: 'home', label: 'Home', href: '/' },
   { value: 'about', label: 'About', href: '/about' },
   { value: 'submit', label: 'Submit', href: '/submit' },
+  { value: 'contact', label: 'Contact', href: '/contact' },
 ];
 
 export default function Sidebar(props) {
