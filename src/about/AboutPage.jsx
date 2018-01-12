@@ -2,18 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spacing, Text, colors } from 'react-elemental';
 
+import { Header, Subheader } from '../page';
+
 export default function AboutPage(props) {
   const { contributors } = props;
   return (
     <Spacing top left right bottom style={{ textAlign: 'justify', hyphens: 'manual' }}>
-      <Text size="beta" bold>
-        About defibs.ie
-      </Text>
-      <Spacing top>
-        <Text color={colors.gray70} size="delta">
-          We're building a map of all the publicly-accessible defibrillators in Ireland.
-        </Text>
-      </Spacing>
+      <Header text="About defibs.ie" />
+      <Subheader
+        text="We're building a map of all the publicly-accessible defibrillators in Ireland."
+      />
       <Spacing top bottom>
         <Text color={colors.gray70} size="epsilon">
           What's the story?

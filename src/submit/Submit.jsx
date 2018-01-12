@@ -14,6 +14,7 @@ import AddAPhoto from 'react-icons/lib/md/add-a-photo';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import Dropzone from 'react-dropzone';
 
+import { Header, Subheader } from '../page';
 import Pin from '../map/Pin';
 
 export default class Submit extends Component {
@@ -80,10 +81,8 @@ export default class Submit extends Component {
 
     return (
     <Spacing top left right bottom>
-      <Text size="beta" bold>Submit a defib</Text>
-      <Spacing top bottom>
-        <Text color="gray70" size="delta">Help us out by submitting a defibrillator location.</Text>
-      </Spacing>
+      <Header text="Submit a defib" />
+      <Subheader text="Help us out by submitting a defibrillator location." />
       <form id="submit-form">
         <Spacing bottom>
         <Label
