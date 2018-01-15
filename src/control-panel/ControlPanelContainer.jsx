@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spacing, Text } from 'react-elemental';
 import Menu from 'react-icons/lib/md/menu';
+import MyLocation from 'react-icons/lib/md/my-location';
 import { geolocated } from 'react-geolocated';
 
 import Header from './Header';
@@ -27,7 +28,7 @@ class ControlPanelContainer extends Component {
   }
 
   render() {
-    const { defib, isCompact, isExpanded } = this.props;
+    const { coords, defib, isCompact, isExpanded, isGeolocationEnabled } = this.props;
 
     const baseStyle = {
       backgroundColor: 'white',
@@ -92,7 +93,7 @@ class ControlPanelContainer extends Component {
           <Spacing size="large" top bottom>
             {defib
               ? renderDefibDetail({ defib })
-              : renderEmptyDetail({ isCompact })
+              : renderEmptyDetail({ isCompact, isGeolocationEnabled, coords })
             }
           </Spacing>
         )}
@@ -121,7 +122,7 @@ renderDefibDetail.propTypes = {
   defib: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-function renderEmptyDetail({ isCompact }) {
+function renderEmptyDetail({ isCompact, isGeolocationEnabled, coords }) {
   return (
     <Fragment>
       <Spacing bottom>
@@ -131,7 +132,7 @@ function renderEmptyDetail({ isCompact }) {
           <Pin
             size={20}
             style={{
-              transform: 'none',
+              transform: 'translateY(3.333333px)',
               cursor: 'default',
             }}
           />
@@ -147,6 +148,17 @@ function renderEmptyDetail({ isCompact }) {
             <Menu />
             {' '}
             for more options.
+          </Text>
+        </Spacing>
+      )}
+      {isGeolocationEnabled && coords && (
+        <Spacing>
+          <Text>
+            Click on the crosshairs
+            {' '}
+            <MyLocation />
+            {' '}
+            to zoom to your location.
           </Text>
         </Spacing>
       )}
