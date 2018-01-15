@@ -6,6 +6,7 @@ import MapGL, {
   Marker,
   NavigationControl,
 } from 'react-map-gl';
+import { geolocated } from 'react-geolocated';
 
 import { fetchDefibDetail, fetchDefibs } from '../defibs/actions';
 import { persistViewportState, setViewport } from './actions';
@@ -23,19 +24,48 @@ class MapContainer extends Component {
   constructor(...args) {
     super(...args);
     this.state = { viewport: this.props.viewport };
+    this.handleGeolocationProps = this.handleGeolocationProps.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
     this.resize = this.resize.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
   }
 
   componentDidMount() {
+    // Fetch defib list
     this.props.fetchDefibs();
+    // Add a resize event listener
     window.addEventListener('resize', this.resize);
+    // Call the event listener, just to initialize things
     this.resize();
+    // Check for geolocation props at mount time and update state
+    const { coords } = this.props;
+    if (coords) {
+      this.handleGeolocationProps(coords);
+    }
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { coords } = this.props;
+    // Check for new geolocation props and update state if they've changed
+    if (nextProps.coords && nextProps.coords !== coords) {
+      this.handleGeolocationProps(nextProps.coords);
+    }
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
+  }
+
+  handleGeolocationProps(coords) {
+    const { viewport } = this.state
+    this.setState({
+        viewport: {
+          ...viewport,
+          longitude: coords.longitude,
+          latitude: coords.latitude,
+        },
+    });
   }
 
   handleMarkerClick(defib) {
@@ -78,12 +108,12 @@ class MapContainer extends Component {
       return null;
     }
 
-    const { defibs } = this.props;
+    const { coords, defibs } = this.props;
     const { viewport } = this.state;
 
     return (
         <MapGL
-          {...viewport}
+          { ...viewport}
           mapStyle="mapbox://styles/mapbox/dark-v9"
           mapboxApiAccessToken={ACCESS_TOKEN}
           onViewportChange={this.updateViewport}
@@ -144,9 +174,9 @@ function mapState(state) {
   };
 }
 
-export default connect(mapState, {
+export default geolocated()(connect(mapState, {
   fetchDefibDetail,
   fetchDefibs,
   persistViewportState,
   setViewport,
-})(MapContainer);
+})(MapContainer));
