@@ -3,16 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spacing, Text } from 'react-elemental';
 import Menu from 'react-icons/lib/md/menu';
+import { geolocated } from 'react-geolocated';
 
 import Header from './Header';
 import DefibDetailContainer from './DefibDetailContainer';
 import Pin from '../map/Pin';
+import { moveToLocation } from '../map/actions';
 import { setIsExpanded } from './actions';
 
 class ControlPanelContainer extends Component {
   constructor(props) {
     super(props);
+    this.handleMyLocationClick = this.handleMyLocationClick.bind(this);
     this.toggleExpansionState = this.toggleExpansionState.bind(this);
+  }
+
+  handleMyLocationClick() {
+    this.props.moveToLocation(this.props.coords);
   }
 
   toggleExpansionState() {
@@ -77,6 +84,7 @@ class ControlPanelContainer extends Component {
               isExpanded={isExpanded}
               isCompact={isCompact}
               onExpandClick={this.toggleExpansionState}
+              onMyLocationClick={this.handleMyLocationClick}
             />
           </Spacing>
 
@@ -154,4 +162,4 @@ function mapState(state) {
   };
 }
 
-export default connect(mapState, { setIsExpanded })(ControlPanelContainer);
+export default geolocated()(connect(mapState, { moveToLocation, setIsExpanded })(ControlPanelContainer));

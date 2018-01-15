@@ -24,6 +24,7 @@ class MapContainer extends Component {
   constructor(...args) {
     super(...args);
     this.state = { viewport: this.props.viewport };
+    this.flyToAndZoom = this.flyToAndZoom.bind(this);
     this.handleGeolocationProps = this.handleGeolocationProps.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
     this.resize = this.resize.bind(this);
@@ -37,19 +38,14 @@ class MapContainer extends Component {
     window.addEventListener('resize', this.resize);
     // Call the event listener, just to initialize things
     this.resize();
-    // Check for geolocation props at mount time and update state
-    const { coords } = this.props;
-    if (coords) {
-      this.handleGeolocationProps(coords);
-    }
-
   }
 
   componentWillReceiveProps(nextProps) {
-    const { coords } = this.props;
-    // Check for new geolocation props and update state if they've changed
-    if (nextProps.coords && nextProps.coords !== coords) {
-      this.handleGeolocationProps(nextProps.coords);
+    // If the props viewport has changed, we should update the state viewport
+    if (this.props.viewport && nextProps.viewport && nextProps.viewport !== this.props.viewport) {
+      console.info('props.viewport has changed');
+      const { latitude, longitude } = nextProps.viewport;
+      this.flyToAndZoom({ latitude, longitude });
     }
   }
 
@@ -57,8 +53,24 @@ class MapContainer extends Component {
     window.removeEventListener('resize', this.resize);
   }
 
+  flyToAndZoom({ latitude, longitude }) {
+    // Fly to the marker position
+    const viewport = {
+      ...this.state.viewport,
+      latitude,
+      longitude,
+      zoom: Math.max(this.state.viewport.zoom, 15), // don't zoom *out*
+      transitionDuration: 500,
+    };
+    this.setState({
+      viewport: {
+        ...viewport,
+        transitionInterpolator: new FlyToInterpolator(),
+    }});
+    this.props.persistViewportState({ viewport });
+  }
+
   handleGeolocationProps(coords) {
-    const { viewport } = this.state
     this.setState({
         viewport: {
           ...viewport,
@@ -74,17 +86,7 @@ class MapContainer extends Component {
     // Retrieve defib info
     this.props.fetchDefibDetail(id);
 
-    // Fly to the marker position
-    this.setState({
-      viewport: {
-        ...this.state.viewport,
-        latitude: Number(lat),
-        longitude: Number(lon),
-        zoom: Math.max(this.state.viewport.zoom, 15), // don't zoom *out*
-        transitionInterpolator: new FlyToInterpolator(),
-        transitionDuration: 500,
-      },
-    });
+    this.flyToAndZoom({ latitude: lat, longitude: lon });
   }
 
   resize() {

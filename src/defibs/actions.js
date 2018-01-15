@@ -11,7 +11,14 @@ export const DEFIB_LIST_ERROR = 'defibs/DEFIB_LIST_ERROR';
 function fetchDefibDetail(id) {
   const url = `${API_URL}/defibs/${id}/`;
   return dispatch => axios.get(url)
-    .then(response => dispatch({ type: DEFIB_DETAIL_SUCCESS, payload: response.data }));
+    .then(response => dispatch({
+      type: DEFIB_DETAIL_SUCCESS,
+      payload: {
+        ...response.data,
+        lat: Number(response.data.lat),
+        lon: Number(response.data.lon),
+      },
+    }));
 }
 
 function fetchDefibs() {
@@ -19,7 +26,14 @@ function fetchDefibs() {
   return (dispatch) => {
     dispatch({ type: DEFIB_LIST_FETCHING });
     return axios.get(url)
-      .then(response => dispatch({ type: DEFIB_LIST_SUCCESS, payload: response.data }));
+      .then(response => dispatch({
+        type: DEFIB_LIST_SUCCESS,
+        payload: response.data.map(defib => ({
+          ...defib,
+          lat: Number(defib.lat),
+          lon: Number(defib.lon),
+        })),
+      }));
   };
 }
 

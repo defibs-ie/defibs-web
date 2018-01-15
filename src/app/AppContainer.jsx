@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spacing } from 'react-elemental';
+import { geolocated } from 'react-geolocated';
 
 import { MapContainer } from '../map';
 import { ControlPanelContainer } from '../control-panel';
@@ -68,4 +69,4 @@ function mapState(state) {
   };
 }
 
-export default connect(mapState, { setWindowDimensions })(AppContainer);
+export default geolocated()(connect(mapState, { setWindowDimensions })(AppContainer));
