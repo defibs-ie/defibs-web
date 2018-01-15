@@ -32,7 +32,7 @@ class SubmitContainer extends Component {
   }
 
   handleChange(which) {
-    return ({ target: { value } }) =>  this.setState({
+    return ({ target: { value } }) => this.setState({
       pristine: false,
       [which]: value,
     });
@@ -47,14 +47,16 @@ class SubmitContainer extends Component {
     const { history } = this.props;
     const { file } = this.state;
 
-    const { email, lat, lon, notes } = data;
+    const {
+      email, lat, lon, notes,
+    } = data;
 
     // Build a FormData object so that we can send an image along with
     // the other data
     const formData = new FormData();
     formData.append('data', data);
     formData.append('file', file);
-    formData.append('email', email || null)
+    formData.append('email', email || null);
     formData.append('lat', lat);
     formData.append('lon', lon);
     formData.append('notes', notes || '');
@@ -78,7 +80,9 @@ class SubmitContainer extends Component {
 
   render() {
     const { isSubmitting } = this.props;
-    const { email, file, notes, pristine, width } = this.state;
+    const {
+      email, file, notes, pristine, width,
+    } = this.state;
 
     return (
       <LayoutContainer

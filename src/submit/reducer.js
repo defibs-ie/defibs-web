@@ -10,7 +10,7 @@ const INITIAL_STATE = {
   err: undefined,
 };
 
-export default function reducer(state=INITIAL_STATE, action) {
+export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case DEFIB_SUBMIT_PENDING:
       console.info('defib submit pending');

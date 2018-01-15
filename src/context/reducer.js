@@ -11,13 +11,13 @@ function isCompactDevice({ width, height }) {
 }
 
 function setWindowDimensions(state, { width, height }) {
-    // console.info(`SET_WINDOW_DIMENSIONS ${width} x ${height}`); // eslint-disable-line no-console
-    return {
-      ...state,
-      width,
-      height,
-      isCompact: isCompactDevice({ width, height }),
-    };
+  // console.info(`SET_WINDOW_DIMENSIONS ${width} x ${height}`); // eslint-disable-line no-console
+  return {
+    ...state,
+    width,
+    height,
+    isCompact: isCompactDevice({ width, height }),
+  };
 }
 
 export default function reducer(state = initialState, action) {

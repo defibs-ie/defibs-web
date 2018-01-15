@@ -30,7 +30,7 @@ export default function reducer(state = { viewport: DEFAULT_VIEWPORT }, action) 
     case 'initial-state/LOADED':
       console.info('initial-state/LOADED');
       return setViewport(state, action.payload);
-      //return { ...state, viewport: action.payload };
+      // return { ...state, viewport: action.payload };
     case MOVE_TO_LOCATION:
       console.info([state.viewport.latitude, state.viewport.longitude]);
       return moveToLocation(state, action.payload);

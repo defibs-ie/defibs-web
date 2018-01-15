@@ -44,7 +44,7 @@ export default class Submit extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    const round = (f) => Math.round(f * 10**6) / 10**6;
+    const round = f => Math.round(f * 10 ** 6) / 10 ** 6;
     const { email, notes } = this.props;
     const { viewport: { latitude, longitude } } = this.state;
     const data = {
@@ -79,41 +79,41 @@ export default class Submit extends Component {
     const { viewport } = this.state;
 
     return (
-    <Spacing top left right bottom>
-      <Header text="Submit a defib" />
-      <Subheader text="Help us out by submitting a defibrillator location." />
-      <form id="submit-form">
-        <Spacing bottom>
-        <Label
-          label="Your email"
-          sublabel="We'll use this to contact you if we have questions about this defib."
-        />
-        <TextField
-          type='email'
-          value={email}
-          onChange={handleChange('email')}
-        />
-        </Spacing>
-        <Spacing bottom>
-          <Label
-            label="Photo (optional)"
-            sublabel="Upload a photo of the defib"
-          />
-          <Dropzone
-            file={file}
-            handleClear={handleClear}
-          />
-        </Spacing>
-        <Spacing bottom>
-          <Label
-            label="Location"
-            sublabel="Move the map under the marker to place this defibrillator."
-          />
-          <div style={{ width: '100%', height: '300px' }}>
-            <AutoSizer>
-              {({ height, width }) => (
-              <Fragment>
-              <div style={{
+      <Spacing top left right bottom>
+        <Header text="Submit a defib" />
+        <Subheader text="Help us out by submitting a defibrillator location." />
+        <form id="submit-form">
+          <Spacing bottom>
+            <Label
+              label="Your email"
+              sublabel="We'll use this to contact you if we have questions about this defib."
+            />
+            <TextField
+              type="email"
+              value={email}
+              onChange={handleChange('email')}
+            />
+          </Spacing>
+          <Spacing bottom>
+            <Label
+              label="Photo (optional)"
+              sublabel="Upload a photo of the defib"
+            />
+            <Dropzone
+              file={file}
+              handleClear={handleClear}
+            />
+          </Spacing>
+          <Spacing bottom>
+            <Label
+              label="Location"
+              sublabel="Move the map under the marker to place this defibrillator."
+            />
+            <div style={{ width: '100%', height: '300px' }}>
+              <AutoSizer>
+                {({ height, width }) => (
+                  <Fragment>
+                    <div style={{
                 width,
                 height,
                 position: 'absolute',
@@ -122,29 +122,30 @@ export default class Submit extends Component {
                 alignItems: 'center',
                 justifyContent: 'space-around',
                 pointerEvents: 'none',
-              }}>
-                <Pin />
-              </div>
-                <MapGL
-                  {...viewport}
-                  width={width}
-                  height={height}
-                  mapboxApiAccessToken={ACCESS_TOKEN}
-                  onViewportChange={this.updateViewport}
-                />
-              </Fragment>
+              }}
+                    >
+                      <Pin />
+                    </div>
+                    <MapGL
+                      {...viewport}
+                      width={width}
+                      height={height}
+                      mapboxApiAccessToken={ACCESS_TOKEN}
+                      onViewportChange={this.updateViewport}
+                    />
+                  </Fragment>
               )}
-            </AutoSizer>
-          </div>
-        </Spacing>
+              </AutoSizer>
+            </div>
+          </Spacing>
 
-        <Spacing bottom>
-          <Label label="Notes (optional)" sublabel="Notes about availability, etc." />
-          <TextArea value={notes} style={{ width: '100%' }} onChange={handleChange('notes')} />
-        </Spacing>
+          <Spacing bottom>
+            <Label label="Notes (optional)" sublabel="Notes about availability, etc." />
+            <TextArea value={notes} style={{ width: '100%' }} onChange={handleChange('notes')} />
+          </Spacing>
 
-        <Spacing bottom style={{ textAlign: 'right' }}>
-          {isSubmitting
+          <Spacing bottom style={{ textAlign: 'right' }}>
+            {isSubmitting
             ? <Button><Spinner size="gamma" /></Button>
             : <Button
               disabled={pristine || errors}
@@ -154,10 +155,10 @@ export default class Submit extends Component {
               onClick={this.handleSubmit}
             />
           }
-        </Spacing>
+          </Spacing>
 
-      </form>
-    </Spacing>
+        </form>
+      </Spacing>
     );
   }
 }

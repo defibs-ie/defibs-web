@@ -97,15 +97,15 @@ class LayoutContainer extends Component {
           </button>
         )}
 
-        <div
-          style={{
+          <div
+            style={{
             marginLeft: contentMargin,
             transition: 'all 0.15s ease',
             maxWidth: `calc(100vw - ${contentMargin})`,
             width: '100%',
           }}
-          id="outer-thing"
-        >
+            id="outer-thing"
+          >
             <Spacing size="huge" left right padding>
               <Spacing size="large" bottom />
               {children}

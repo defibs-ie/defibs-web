@@ -84,7 +84,7 @@ export default function AboutPage(props) {
         <Text color={colors.gray70} size="epsilon">
           This sounds amazing! How can I help?
         </Text>
-      <Spacing top size="tiny">
+        <Spacing top size="tiny">
           <Text>
             Thanks! It's not really a big deal, though.
             You can help out by <Link to="/submit">
@@ -96,9 +96,9 @@ export default function AboutPage(props) {
         </Spacing>
       </Spacing>
       <Spacing top bottom>
-          <Text color={colors.gray70} size="epsilon">
+        <Text color={colors.gray70} size="epsilon">
             Who's to blame?
-          </Text>
+        </Text>
         <Spacing top size="tiny">
           <Text>
             defibs.ie is supported by the people who think it's a good idea.

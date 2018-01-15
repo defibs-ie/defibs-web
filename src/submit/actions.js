@@ -14,10 +14,8 @@ function submitDefib(data) {
       data,
       // config,
     )
-      .then((response) => {
-        return dispatch({ type: DEFIB_SUBMIT_SUCCESS });
-      });
-  }
+      .then(response => dispatch({ type: DEFIB_SUBMIT_SUCCESS }));
+  };
 }
 
 export {

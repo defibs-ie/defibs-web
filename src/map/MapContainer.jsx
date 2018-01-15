@@ -68,17 +68,18 @@ class MapContainer extends Component {
       viewport: {
         ...viewport,
         transitionInterpolator: new FlyToInterpolator(),
-    }});
+      },
+    });
     this.props.persistViewportState({ viewport });
   }
 
   handleGeolocationProps(coords) {
     this.setState({
-        viewport: {
-          ...viewport,
-          longitude: coords.longitude,
-          latitude: coords.latitude,
-        },
+      viewport: {
+        ...viewport,
+        longitude: coords.longitude,
+        latitude: coords.latitude,
+      },
     });
   }
 
@@ -116,42 +117,42 @@ class MapContainer extends Component {
     const { viewport } = this.state;
 
     return (
-        <MapGL
-          { ...viewport}
-          mapStyle="mapbox://styles/mapbox/dark-v9"
-          mapboxApiAccessToken={ACCESS_TOKEN}
-          onViewportChange={this.updateViewport}
-        >
-          {defibs.map(defib => (
-            <Marker
-              key={defib.id}
-              longitude={Number(defib.lon)}
-              latitude={Number(defib.lat)}
-            >
-              <Pin
-                size={36}
-                onClick={() => this.handleMarkerClick(defib)}
-              />
-            </Marker>
+      <MapGL
+        {...viewport}
+        mapStyle="mapbox://styles/mapbox/dark-v9"
+        mapboxApiAccessToken={ACCESS_TOKEN}
+        onViewportChange={this.updateViewport}
+      >
+        {defibs.map(defib => (
+          <Marker
+            key={defib.id}
+            longitude={Number(defib.lon)}
+            latitude={Number(defib.lat)}
+          >
+            <Pin
+              size={36}
+              onClick={() => this.handleMarkerClick(defib)}
+            />
+          </Marker>
           ))}
-          {isGeolocationEnabled && coords && (
-            <Marker
-              key="my-location"
-              latitude={coords.latitude}
-              longitude={coords.longitude}
-            >
-              <MyLocation
-                style={{
+        {isGeolocationEnabled && coords && (
+        <Marker
+          key="my-location"
+          latitude={coords.latitude}
+          longitude={coords.longitude}
+        >
+          <MyLocation
+            style={{
                   color: colors.gray50,
                   fontSize: 24,
                 }}
-              />
-            </Marker>
+          />
+        </Marker>
           )}
-          <div className="nav" style={navStyle}>
-            <NavigationControl onViewportChange={this.updateViewport} />
-          </div>
-        </MapGL>
+        <div className="nav" style={navStyle}>
+          <NavigationControl onViewportChange={this.updateViewport} />
+        </div>
+      </MapGL>
     );
   }
 }

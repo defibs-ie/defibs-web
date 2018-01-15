@@ -16,7 +16,7 @@ function setViewport(viewport) {
 function moveToLocation(coords) {
   const latitude = Number(coords.latitude);
   const longitude = Number(coords.longitude);
-  return dispatch => dispatch({ type: MOVE_TO_LOCATION, payload: {latitude, longitude }});
+  return dispatch => dispatch({ type: MOVE_TO_LOCATION, payload: { latitude, longitude } });
 }
 
 export {

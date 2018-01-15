@@ -28,7 +28,9 @@ class ControlPanelContainer extends Component {
   }
 
   render() {
-    const { coords, defib, isCompact, isExpanded, isGeolocationEnabled } = this.props;
+    const {
+      coords, defib, isCompact, isExpanded, isGeolocationEnabled,
+    } = this.props;
 
     const baseStyle = {
       backgroundColor: 'white',
