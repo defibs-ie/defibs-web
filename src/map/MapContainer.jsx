@@ -7,6 +7,8 @@ import MapGL, {
   NavigationControl,
 } from 'react-map-gl';
 import { geolocated } from 'react-geolocated';
+import { colors } from 'react-elemental';
+import MyLocation from 'react-icons/lib/md/my-location';
 
 import { fetchDefibDetail, fetchDefibs } from '../defibs/actions';
 import { persistViewportState, setViewport } from './actions';
@@ -110,7 +112,7 @@ class MapContainer extends Component {
       return null;
     }
 
-    const { coords, defibs } = this.props;
+    const { coords, defibs, isGeolocationEnabled } = this.props;
     const { viewport } = this.state;
 
     return (
@@ -132,6 +134,20 @@ class MapContainer extends Component {
               />
             </Marker>
           ))}
+          {isGeolocationEnabled && coords && (
+            <Marker
+              key="my-location"
+              latitude={coords.latitude}
+              longitude={coords.longitude}
+            >
+              <MyLocation
+                style={{
+                  color: colors.gray50,
+                  fontSize: 24,
+                }}
+              />
+            </Marker>
+          )}
           <div className="nav" style={navStyle}>
             <NavigationControl onViewportChange={this.updateViewport} />
           </div>
