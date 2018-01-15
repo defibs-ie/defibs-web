@@ -25,7 +25,7 @@ class ControlPanelContainer extends Component {
     const baseStyle = {
       backgroundColor: 'white',
       maxHeight: '110px',
-      opacity: 0.5,
+      opacity: 1,
       overflowX: 'hidden',
       overflowY: 'hidden',
       transition: 'all 0.3s ease',
@@ -34,7 +34,7 @@ class ControlPanelContainer extends Component {
 
     const expandedStyle = {
       maxHeight: 'calc(100vh - 48px)',
-      opacity: 1,
+      // opacity: 1,
       overflowY: 'auto',
     };
 
