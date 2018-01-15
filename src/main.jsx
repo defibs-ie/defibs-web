@@ -50,8 +50,6 @@ if (Object.keys(viewport).length) {
 
 window.addEventListener('resize', () => {
   const { innerWidth: width, innerHeight: height } = window;
-  // console.info('resize');
-  // console.info(width, height);
   store.dispatch({
     type: SET_WINDOW_DIMENSIONS,
     payload: { width, height },
