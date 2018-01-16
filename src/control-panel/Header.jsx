@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Text, colors } from 'react-elemental';
 import MyLocation from 'react-icons/lib/md/my-location';
 import KeyboardArrowUp from 'react-icons/lib/md/keyboard-arrow-up';
@@ -20,6 +19,7 @@ function Header(props) {
         <div
           role="button"
           onClick={onMyLocationClick}
+          onKeyUp={onMyLocationClick}
           style={{ cursor: 'pointer' }}
           tabIndex={-1}
         >
@@ -53,7 +53,9 @@ function Header(props) {
 
 Header.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
+  isGeolocationEnabled: PropTypes.bool.isRequired,
   onExpandClick: PropTypes.func.isRequired,
+  onMyLocationClick: PropTypes.func.isRequired,
 };
 
 export default geolocated()(Header);

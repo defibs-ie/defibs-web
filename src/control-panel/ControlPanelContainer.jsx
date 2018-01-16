@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Spacing, Text } from 'react-elemental';
 import Menu from 'react-icons/lib/md/menu';
 import MyLocation from 'react-icons/lib/md/my-location';
-import { geolocated } from 'react-geolocated';
+import { geolocated, geoPropTypes } from 'react-geolocated';
 
 import Header from './Header';
 import DefibDetailContainer from './DefibDetailContainer';
@@ -107,6 +107,7 @@ class ControlPanelContainer extends Component {
 }
 
 ControlPanelContainer.propTypes = {
+  ...geoPropTypes,
   setIsExpanded: PropTypes.func.isRequired,
   isCompact: PropTypes.bool.isRequired,
   isExpanded: PropTypes.bool.isRequired,
@@ -169,6 +170,11 @@ function renderEmptyDetail({ isCompact, isGeolocationEnabled, coords }) {
   );
 }
 
+renderEmptyDetail.propTypes = {
+  isCompact: PropTypes.bool.isRequired,
+  ...geoPropTypes,
+};
+
 function mapState(state) {
   return {
     defib: state.defibs.defibDetail,
@@ -177,4 +183,7 @@ function mapState(state) {
   };
 }
 
-export default geolocated()(connect(mapState, { moveToLocation, setIsExpanded })(ControlPanelContainer));
+export default geolocated()(connect(
+  mapState,
+  { moveToLocation, setIsExpanded },
+)(ControlPanelContainer));

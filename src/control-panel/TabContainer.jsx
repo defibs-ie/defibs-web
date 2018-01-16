@@ -53,7 +53,7 @@ class TabContainer extends Component {
       return (
         <div style={{ width: '100%' }}>
           <AutoSizer>
-            {({ width, height }) => (
+            {({ width }) => (
               <MapGL
                 mapboxApiAccessToken={ACCESS_TOKEN}
                 width={width}

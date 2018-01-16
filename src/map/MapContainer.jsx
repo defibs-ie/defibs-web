@@ -9,7 +9,6 @@ import MapGL, {
 import { geolocated } from 'react-geolocated';
 import { colors } from 'react-elemental';
 import MyLocation from 'react-icons/lib/md/my-location';
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 
 import { fetchDefibDetail, fetchDefibs } from '../defibs/actions';
 import { persistViewportState, setViewport } from './actions';
@@ -40,7 +39,6 @@ class MapContainer extends Component {
   componentWillReceiveProps(nextProps) {
     // If the props viewport has changed, we should update the state viewport
     if (this.props.viewport && nextProps.viewport && nextProps.viewport !== this.props.viewport) {
-      console.info('props.viewport has changed');
       const { latitude, longitude } = nextProps.viewport;
       this.flyToAndZoom({ latitude, longitude });
     }
@@ -137,9 +135,15 @@ class MapContainer extends Component {
 }
 
 MapContainer.propTypes = {
+  coords: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }),
   defibs: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   fetchDefibDetail: PropTypes.func.isRequired,
   fetchDefibs: PropTypes.func.isRequired,
+  height: PropTypes.number.isRequired,
+  isGeolocationEnabled: PropTypes.bool.isRequired,
   persistViewportState: PropTypes.func.isRequired,
   viewport: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
@@ -150,9 +154,11 @@ MapContainer.propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
   }),
+  width: PropTypes.number.isRequired,
 };
 
 MapContainer.defaultProps = {
+  coords: { latitude: null, longitude: null },
   defibs: [],
   viewport: {
     latitude: 52,

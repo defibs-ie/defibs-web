@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Spacing, Text, colors } from 'react-elemental';
 
@@ -87,9 +88,12 @@ export default function AboutPage(props) {
         <Spacing top size="tiny">
           <Text>
             Thanks! It's not really a big deal, though.
-            You can help out by <Link to="/submit">
+            You can help out by
+            {' '}
+            <Link to="/submit">
               submitting a missing de­fibril­lator location
             </Link>.
+            {' '}
             Nobody's getting rich out of this; when the time comes to pass around the cap
             to keep the lights on, we'll let you know.
           </Text>
@@ -104,7 +108,7 @@ export default function AboutPage(props) {
             defibs.ie is supported by the people who think it's a good idea.
             We're grateful to the good folks at
             {' '}
-            <a href="http://digitalfix.ie/" target="_blank">
+            <a href="http://digitalfix.ie/" target="_blank" rel="noopener noreferrer">
               Digital Fix
             </a>
             {' '}
@@ -112,24 +116,33 @@ export default function AboutPage(props) {
           </Text>
         </Spacing>
       </Spacing>
-      {false && (<Spacing top>
-        <Text size="epsilon">Hall of Fame</Text>
-        <table style={{ width: '100%' }}>
-          <tbody>
-            {contributors.map(contributor => (
-              <tr key={contributor.name}>
-                <td>
-                  <Text>{contributor.name}</Text>
-                </td>
-                <td>
-                  <Text>{contributor.defib_count}</Text>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </Spacing>
+      {false && (
+        <Spacing top>
+          <Text size="epsilon">Hall of Fame</Text>
+          <table style={{ width: '100%' }}>
+            <tbody>
+              {contributors.map(contributor => (
+                <tr key={contributor.name}>
+                  <td>
+                    <Text>{contributor.name}</Text>
+                  </td>
+                  <td>
+                    <Text>{contributor.defib_count}</Text>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Spacing>
       )}
     </Spacing>
   );
 }
+
+AboutPage.propTypes = {
+  contributors: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+};
+
+AboutPage.defaultProps = {
+  contributors: [],
+};

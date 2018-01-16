@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link, Spacing, Text } from 'react-elemental';
+import { Link, Spacing } from 'react-elemental';
 
 import Github from 'react-icons/lib/fa/github';
 import Twitter from 'react-icons/lib/fa/twitter';

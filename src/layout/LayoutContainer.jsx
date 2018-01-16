@@ -21,8 +21,6 @@ class LayoutContainer extends Component {
     const { children, isCompact, isMap } = this.props;
     const { isMenuVisible } = this.state;
 
-    console.info(`LayoutContainer.isCompact: ${isCompact}`);
-
     const baseStyle = {
       backgroundColor: '#1F2629',
       height: '100vh',
