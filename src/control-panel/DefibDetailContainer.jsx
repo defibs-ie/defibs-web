@@ -26,7 +26,7 @@ function DefibDetailContainer(props) {
           rel="noopen noreferrer"
         >
           <img
-            src="/images/google-maps.png"
+            src="https://s3-eu-west-1.amazonaws.com/assets.defibs.ie/images/google-maps.png"
             style={{
               width: '36px',
             }}
