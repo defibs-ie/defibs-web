@@ -9,9 +9,29 @@ function DefibDetailContainer(props) {
   return (
     <Spacing>
       <Spacing bottom>
+      </Spacing>
+      <Spacing bottom
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+        }}
+      >
         <Text size="epsilon" bold>
           {defib.address}
         </Text>
+        <a
+          href={`https://maps.google.com?q=${defib.lat},${defib.lon}`}
+          target="_blank"
+          rel="noopen noreferrer"
+        >
+          <img
+            src="/images/google-maps.png"
+            style={{
+              width: '36px',
+            }}
+          />
+        </a>
       </Spacing>
       <Spacing bottom>
         <Text size="kilo" bold>Notes</Text>
