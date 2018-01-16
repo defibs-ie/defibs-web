@@ -97,7 +97,7 @@ class LayoutContainer extends Component {
             style={{
             marginLeft: contentMargin,
             transition: 'all 0.15s ease',
-            maxWidth: `calc(100vw - ${contentMargin})`,
+            maxWidth: `calc(100vw - ${contentMargin} - 50px)`,
             width: '100%',
           }}
           >
