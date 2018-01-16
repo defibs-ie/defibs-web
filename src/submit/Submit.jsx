@@ -8,16 +8,20 @@ import {
   Spinner,
   TextArea,
   TextField,
+  colors,
 } from 'react-elemental';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
+import MyLocation from 'react-icons/lib/md/my-location';
 import Dropzone from './Dropzone';
+import { geolocated } from 'react-geolocated';
 
 import { Header, Subheader } from '../page';
 import Pin from '../map/Pin';
 
-export default class Submit extends Component {
+class Submit extends Component {
   constructor(props) {
     super(props);
+    this.handleMyLocationClick = this.handleMyLocationClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
     this.state = {
@@ -30,6 +34,18 @@ export default class Submit extends Component {
         zoom: 6,
       },
     };
+  }
+
+  handleMyLocationClick() {
+    const { coords: { latitude, longitude } } = this.props;
+    this.setState({
+      viewport: {
+        ...this.state.viewport,
+        latitude,
+        longitude,
+        zoom: Math.max(this.state.viewport.zoom, 15),
+      },
+    });
   }
 
   handleSubmit(evt) {
@@ -57,6 +73,7 @@ export default class Submit extends Component {
       file,
       handleChange,
       handleClear,
+      isGeolocationEnabled,
       isSubmitting,
       notes,
       onDrop,
@@ -102,15 +119,15 @@ export default class Submit extends Component {
                 {({ height, width }) => (
                   <Fragment>
                     <div style={{
-                width,
-                height,
-                position: 'absolute',
-                zIndex: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-around',
-                pointerEvents: 'none',
-              }}
+                        width,
+                        height,
+                        position: 'absolute',
+                        zIndex: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-around',
+                        pointerEvents: 'none',
+                      }}
                     >
                       <Pin />
                     </div>
@@ -121,6 +138,20 @@ export default class Submit extends Component {
                       mapboxApiAccessToken={ACCESS_TOKEN}
                       onViewportChange={this.updateViewport}
                     />
+                    {isGeolocationEnabled && (
+                      <a
+                        href="#"
+                        style={{
+                          color: colors.gray50,
+                          position: 'absolute',
+                          top: '10px',
+                          right: '10px',
+                        }}
+                        onClick={this.handleMyLocationClick}
+                      >
+                        <MyLocation fontSize={36} />
+                      </a>
+                    )}
                   </Fragment>
               )}
               </AutoSizer>
@@ -157,9 +188,11 @@ Submit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   errors: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-  file: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  file: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isSubmitting: PropTypes.bool.isRequired,
   notes: PropTypes.string.isRequired,
   onDrop: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
 };
+
+export default geolocated()(Submit);
