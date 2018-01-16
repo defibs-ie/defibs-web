@@ -28,9 +28,6 @@ class SubmitContainer extends Component {
     window.dispatchEvent(new Event('resize'));
   }
 
-  componentDidUpdate() {
-  }
-
   handleChange(which) {
     return ({ target: { value } }) => this.setState({
       pristine: false,
@@ -81,7 +78,7 @@ class SubmitContainer extends Component {
   render() {
     const { isSubmitting } = this.props;
     const {
-      email, file, notes, pristine, width,
+      email, file, notes, pristine,
     } = this.state;
 
     return (
@@ -90,7 +87,7 @@ class SubmitContainer extends Component {
       >
         <div
           id="referenceWidth"
-          ref={c => this.submitComponent = c}
+          ref={(c) => { this.submitComponent = c; }}
         >
           <Submit
             email={email}
@@ -110,6 +107,12 @@ class SubmitContainer extends Component {
     );
   }
 }
+
+SubmitContainer.propTypes = {
+  height: PropTypes.number.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  width: PropTypes.number.isRequired,
+};
 
 function mapState({
   context,

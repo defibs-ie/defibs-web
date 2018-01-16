@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Spacing, Text } from 'react-elemental';
 import { withRouter } from 'react-router';

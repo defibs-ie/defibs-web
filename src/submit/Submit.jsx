@@ -36,12 +36,6 @@ export default class Submit extends Component {
     };
   }
 
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
   handleSubmit(evt) {
     evt.preventDefault();
     const round = f => Math.round(f * 10 ** 6) / 10 ** 6;
