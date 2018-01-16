@@ -96,6 +96,7 @@ export default class Submit extends Component {
             <Dropzone
               file={file}
               handleClear={handleClear}
+              onDrop={onDrop}
             />
           </Spacing>
           <Spacing bottom>

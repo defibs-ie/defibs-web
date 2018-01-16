@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors } from 'react-elemental';
+import { Button, colors } from 'react-elemental';
 import BaseDropzone from 'react-dropzone';
 import AddAPhoto from 'react-icons/lib/md/add-a-photo';
 

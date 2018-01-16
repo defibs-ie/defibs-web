@@ -47,7 +47,7 @@ class SubmitContainer extends Component {
     // Build a FormData object so that we can send an image along with
     // the other data
     const formData = new FormData();
-    formData.append('data', data);
+    // formData.append('data', data);
     formData.append('file', file);
     formData.append('email', email || null);
     formData.append('lat', lat);
@@ -62,13 +62,15 @@ class SubmitContainer extends Component {
   onDrop(files) {
     // file is a File (although typeof returns 'object', thanks)
     const file = files[0];
-    const formData = new FormData();
-    formData.append('file', file);
-    this.setState({ formData });
-    this.setState({ file }, () => {
+    // const formData = new FormData();
+    // formData.append('file', file);
+    // this.setState({ formData });
+    this.setState({ file });
+    //this.setState({ file }, () => {
       // goes into state as a file
-      console.info(this.state.file);
-    });
+      //console.info(this.state.file);
+      this
+    //});
   }
 
   render() {
@@ -95,8 +97,6 @@ class SubmitContainer extends Component {
             pristine={pristine}
             isSubmitting={isSubmitting}
             handleSubmit={this.handleSubmit}
-            deviceWidth={this.props.width}
-            deviceHeight={this.props.height}
           />
         </div>
       </LayoutContainer>
@@ -105,9 +105,7 @@ class SubmitContainer extends Component {
 }
 
 SubmitContainer.propTypes = {
-  height: PropTypes.number.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
-  width: PropTypes.number.isRequired,
 };
 
 function mapState({ submit: { isSubmitting } }) {
