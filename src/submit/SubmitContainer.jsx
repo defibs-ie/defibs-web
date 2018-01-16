@@ -66,11 +66,11 @@ class SubmitContainer extends Component {
     // formData.append('file', file);
     // this.setState({ formData });
     this.setState({ file });
-    //this.setState({ file }, () => {
-      // goes into state as a file
-      //console.info(this.state.file);
-      this
-    //});
+    // this.setState({ file }, () => {
+    // goes into state as a file
+    // console.info(this.state.file);
+    this;
+    // });
   }
 
   render() {
