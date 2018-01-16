@@ -36,7 +36,8 @@ class Submit extends Component {
     };
   }
 
-  handleMyLocationClick() {
+  handleMyLocationClick(evt) {
+    evt.preventDefault();
     const { coords: { latitude, longitude } } = this.props;
     this.setState({
       viewport: {
@@ -139,10 +140,14 @@ class Submit extends Component {
                       onViewportChange={this.updateViewport}
                     />
                     {isGeolocationEnabled && (
-                      <a
-                        href="#"
+                      <button
                         style={{
+                          background: 'none',
+                          border: 'none',
                           color: colors.gray50,
+                          cursor: 'pointer',
+                          margin: 0,
+                          padding: 0,
                           position: 'absolute',
                           top: '10px',
                           right: '10px',
@@ -150,7 +155,7 @@ class Submit extends Component {
                         onClick={this.handleMyLocationClick}
                       >
                         <MyLocation fontSize={36} />
-                      </a>
+                      </button>
                     )}
                   </Fragment>
               )}
@@ -167,7 +172,7 @@ class Submit extends Component {
             {isSubmitting
             ? <Button><Spinner size="gamma" /></Button>
             : <Button
-              disabled={pristine || errors}
+              disabled={pristine || !!errors.length}
               size="alpha"
               text="Submit"
               type="submit"
