@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { Text } from 'react-elemental';
 
 import { LayoutContainer } from '../layout';
 import Submit from './Submit';
@@ -14,13 +12,12 @@ class SubmitContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClear = this.handleClear.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onDrop = this.onDrop.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
     this.state = {
       email: '',
       notes: '',
       file: null,
       pristine: true,
-      width: 0,
     };
   }
 
@@ -59,18 +56,10 @@ class SubmitContainer extends Component {
       .then(() => history.push('/submit-success'));
   }
 
-  onDrop(files) {
+  handleDrop(files) {
     // file is a File (although typeof returns 'object', thanks)
     const file = files[0];
-    // const formData = new FormData();
-    // formData.append('file', file);
-    // this.setState({ formData });
     this.setState({ file });
-    // this.setState({ file }, () => {
-    // goes into state as a file
-    // console.info(this.state.file);
-    this;
-    // });
   }
 
   render() {
@@ -93,7 +82,7 @@ class SubmitContainer extends Component {
             handleChange={this.handleChange}
             handleClear={this.handleClear}
             notes={notes}
-            onDrop={this.onDrop}
+            onDrop={this.handleDrop}
             pristine={pristine}
             isSubmitting={isSubmitting}
             handleSubmit={this.handleSubmit}
@@ -105,7 +94,9 @@ class SubmitContainer extends Component {
 }
 
 SubmitContainer.propTypes = {
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   isSubmitting: PropTypes.bool.isRequired,
+  submitDefib: PropTypes.func.isRequired,
 };
 
 function mapState({ submit: { isSubmitting } }) {

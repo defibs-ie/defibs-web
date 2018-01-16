@@ -13,7 +13,6 @@ const INITIAL_STATE = {
 export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case DEFIB_SUBMIT_PENDING:
-      console.info('defib submit pending');
       return { ...state, isSubmitting: true };
     case DEFIB_SUBMIT_SUCCESS:
       return { ...state, isSubmitting: false, response: action.payload };

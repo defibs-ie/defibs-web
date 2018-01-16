@@ -28,14 +28,11 @@ function setViewport(state, viewport) {
 export default function reducer(state = { viewport: DEFAULT_VIEWPORT }, action) {
   switch (action.type) {
     case 'initial-state/LOADED':
-      console.info('initial-state/LOADED');
       return setViewport(state, action.payload);
       // return { ...state, viewport: action.payload };
     case MOVE_TO_LOCATION:
-      console.info([state.viewport.latitude, state.viewport.longitude]);
       return moveToLocation(state, action.payload);
     case SET_VIEWPORT:
-      console.info([state.viewport.latitude, state.viewport.longitude]);
       return setViewport(state, action.payload);
       // return { ...state, viewport: action.payload };
     default:

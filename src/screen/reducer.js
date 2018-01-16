@@ -23,7 +23,6 @@ function setWindowDimensions(state, { width, height }) {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_WINDOW_DIMENSIONS:
-      console.info('SET_WINDOW_DIMENSIONS');
       return setWindowDimensions(state, action.payload);
     default:
       return state;

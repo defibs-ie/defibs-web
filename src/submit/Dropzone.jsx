@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, colors } from 'react-elemental';
 import BaseDropzone from 'react-dropzone';
 import AddAPhoto from 'react-icons/lib/md/add-a-photo';
@@ -67,3 +68,13 @@ export default function Dropzone({
     </BaseDropzone>
   );
 }
+
+Dropzone.propTypes = {
+  file: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  handleClear: PropTypes.func.isRequired,
+  onDrop: PropTypes.func.isRequired,
+};
+
+Dropzone.defaultProps = {
+  file: null,
+};

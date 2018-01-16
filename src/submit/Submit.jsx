@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import MapGL from 'react-map-gl';
 import {
   Button,
   Label,
   Spacing,
   Spinner,
-  Text,
   TextArea,
   TextField,
-  colors,
 } from 'react-elemental';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import Dropzone from './Dropzone';
@@ -21,7 +20,6 @@ export default class Submit extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
-    const width = 0;
     this.state = {
       viewport: {
         // width,
@@ -31,14 +29,12 @@ export default class Submit extends Component {
         longitude: -7.820067649242004,
         zoom: 6,
       },
-      email: '',
-      notes: '',
     };
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
-    const round = f => Math.round(f * 10 ** 6) / 10 ** 6;
+    const round = f => Math.round(f * (10 ** 6)) / (10 ** 6);
     const { email, notes } = this.props;
     const { viewport: { latitude, longitude } } = this.state;
     const data = {
@@ -51,14 +47,11 @@ export default class Submit extends Component {
   }
 
   updateViewport(viewport) {
-    const { handleChange } = this.props;
     this.setState({ viewport });
   }
 
   render() {
     const {
-      deviceWidth,
-      deviceHeight,
       email,
       errors,
       file,
@@ -157,3 +150,16 @@ export default class Submit extends Component {
     );
   }
 }
+
+Submit.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  handleClear: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  errors: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  file: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  isSubmitting: PropTypes.bool.isRequired,
+  notes: PropTypes.string.isRequired,
+  onDrop: PropTypes.func.isRequired,
+  pristine: PropTypes.bool.isRequired,
+};
