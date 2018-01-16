@@ -39,6 +39,7 @@ class ControlPanelContainer extends Component {
       overflowX: 'hidden',
       overflowY: 'hidden',
       transition: 'all 0.3s ease',
+      // transition: 'height 0.3s ease',
       width: '500px',
     };
 
@@ -77,7 +78,7 @@ class ControlPanelContainer extends Component {
       >
         <Spacing
           size={(isCompact && !isExpanded) ? 'tiny' : 'large'}
-          style={{ transition: 'all 0.15s ease' }}
+          style={{ transition: 'all 0.3s ease' }}
           top
           bottom
           padding
@@ -171,7 +172,7 @@ function renderEmptyDetail({ isCompact, isGeolocationEnabled, coords }) {
 function mapState(state) {
   return {
     defib: state.defibs.defibDetail,
-    isCompact: state.context.isCompact,
+    isCompact: state.screen.isCompact,
     isExpanded: state.controlPanel.isExpanded,
   };
 }

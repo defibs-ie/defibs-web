@@ -39,9 +39,9 @@ function renderPhoto(defib) {
   return null;
 }
 
-function mapState({ context }) {
+function mapState({ screen }) {
   return {
-    isCompact: context.isCompact,
+    isCompact: screen.isCompact,
   };
 }
 

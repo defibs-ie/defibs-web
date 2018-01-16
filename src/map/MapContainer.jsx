@@ -9,6 +9,7 @@ import MapGL, {
 import { geolocated } from 'react-geolocated';
 import { colors } from 'react-elemental';
 import MyLocation from 'react-icons/lib/md/my-location';
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 
 import { fetchDefibDetail, fetchDefibs } from '../defibs/actions';
 import { persistViewportState, setViewport } from './actions';
@@ -27,19 +28,13 @@ class MapContainer extends Component {
     super(...args);
     this.state = { viewport: this.props.viewport };
     this.flyToAndZoom = this.flyToAndZoom.bind(this);
-    this.handleGeolocationProps = this.handleGeolocationProps.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
-    this.resize = this.resize.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
   }
 
   componentDidMount() {
     // Fetch defib list
     this.props.fetchDefibs();
-    // Add a resize event listener
-    window.addEventListener('resize', this.resize);
-    // Call the event listener, just to initialize things
-    this.resize();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,10 +44,6 @@ class MapContainer extends Component {
       const { latitude, longitude } = nextProps.viewport;
       this.flyToAndZoom({ latitude, longitude });
     }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resize);
   }
 
   flyToAndZoom({ latitude, longitude }) {
@@ -73,38 +64,18 @@ class MapContainer extends Component {
     this.props.persistViewportState({ viewport });
   }
 
-  handleGeolocationProps(coords) {
-    this.setState({
-      viewport: {
-        ...viewport,
-        longitude: coords.longitude,
-        latitude: coords.latitude,
-      },
-    });
-  }
-
-  handleMarkerClick(defib) {
-    const { lat, lon, id } = defib;
-
+  handleMarkerClick({ lat, lon, id }) {
     // Retrieve defib info
     this.props.fetchDefibDetail(id);
-
+    // Centre the map on the defib location
     this.flyToAndZoom({ latitude: lat, longitude: lon });
   }
 
-  resize() {
-    // Update the viewport state to resize the map
-    this.setState({
-      viewport: {
-        ...this.state.viewport,
-        width: window.innerWidth,
-        height: window.innerHeight,
-      },
-    });
-  }
-
   updateViewport(viewport) {
+    // Update viewport in state, effectively allowing interactivity
     this.setState({ viewport });
+    // Persist the viewport state to local storage so that it'll
+    // look OK on reload
     this.props.persistViewportState({ viewport });
   }
 
@@ -113,12 +84,20 @@ class MapContainer extends Component {
       return null;
     }
 
-    const { coords, defibs, isGeolocationEnabled } = this.props;
+    const {
+      coords,
+      defibs,
+      height,
+      isGeolocationEnabled,
+      width,
+    } = this.props;
     const { viewport } = this.state;
 
     return (
       <MapGL
         {...viewport}
+        width={width}
+        height={height}
         mapStyle="mapbox://styles/mapbox/dark-v9"
         mapboxApiAccessToken={ACCESS_TOKEN}
         onViewportChange={this.updateViewport}

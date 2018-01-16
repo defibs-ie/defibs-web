@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spacing } from 'react-elemental';
 import { geolocated } from 'react-geolocated';
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 
 import { MapContainer } from '../map';
 import { ControlPanelContainer } from '../control-panel';
-import { setWindowDimensions } from '../context/actions';
+import { setWindowDimensions } from '../screen/actions';
 import { LayoutContainer } from '../layout';
 
 class AppContainer extends Component {
@@ -34,25 +35,30 @@ class AppContainer extends Component {
     const compactStyle = {
       left: 0,
       top: 0,
-      width: '100%',
+      width: '100vw',
     };
 
     return (
-      <div>
+      <div style={{ width: '100vw', height: '100vh'}}>
         <LayoutContainer isMap selectedSidebarItem="home" />
-        <div style={{ width: '100%', height: '100%' }}>
-          <MapContainer />
-          <Spacing
-            style={{
-              ...baseStyle,
-              ...isCompact ? compactStyle : normalStyle,
-            }}
-            top={!isCompact}
-            right={!isCompact}
-          >
-            <ControlPanelContainer isCompact={isCompact} />
-          </Spacing>
-        </div>
+        <AutoSizer>
+          {({ height, width }) => (
+            <MapContainer
+              width={width}
+              height={height}
+            />
+          )}
+        </AutoSizer>
+        <Spacing
+          style={{
+            ...baseStyle,
+            ...isCompact ? compactStyle : normalStyle,
+          }}
+          top={!isCompact}
+          right={!isCompact}
+        >
+          <ControlPanelContainer isCompact={isCompact} />
+        </Spacing>
       </div>
     );
   }
@@ -65,7 +71,7 @@ AppContainer.propTypes = {
 
 function mapState(state) {
   return {
-    isCompact: state.context.isCompact,
+    isCompact: state.screen.isCompact,
   };
 }
 

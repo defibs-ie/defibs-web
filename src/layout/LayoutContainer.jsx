@@ -13,10 +13,6 @@ class LayoutContainer extends Component {
     this.setMenuVisibility = this.setMenuVisibility.bind(this);
   }
 
-  componentDidMount() {
-    window.dispatchEvent(new Event('resize'));
-  }
-
   setMenuVisibility(isMenuVisible) {
     this.setState({ isMenuVisible });
   }
@@ -24,6 +20,8 @@ class LayoutContainer extends Component {
   render() {
     const { children, isCompact, isMap } = this.props;
     const { isMenuVisible } = this.state;
+
+    console.info(`LayoutContainer.isCompact: ${isCompact}`);
 
     const baseStyle = {
       backgroundColor: '#1F2629',
@@ -104,7 +102,6 @@ class LayoutContainer extends Component {
             maxWidth: `calc(100vw - ${contentMargin})`,
             width: '100%',
           }}
-            id="outer-thing"
           >
             <Spacing size="huge" left right padding>
               <Spacing size="large" bottom />
@@ -132,7 +129,7 @@ LayoutContainer.defaultProps = {
 
 function mapState(state) {
   return {
-    isCompact: state.context.isCompact,
+    isCompact: state.screen.isCompact,
   };
 }
 

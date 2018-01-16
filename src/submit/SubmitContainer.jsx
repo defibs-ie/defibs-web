@@ -24,10 +24,6 @@ class SubmitContainer extends Component {
     };
   }
 
-  componentDidMount() {
-    window.dispatchEvent(new Event('resize'));
-  }
-
   handleChange(which) {
     return ({ target: { value } }) => this.setState({
       pristine: false,
@@ -114,12 +110,8 @@ SubmitContainer.propTypes = {
   width: PropTypes.number.isRequired,
 };
 
-function mapState({
-  context,
-  submit: { isSubmitting },
-}) {
+function mapState({ submit: { isSubmitting } }) {
   return {
-    ...context,
     isSubmitting,
   };
 }

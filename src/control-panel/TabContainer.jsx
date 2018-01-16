@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spacing, Tabs } from 'react-elemental';
 import MapGL, { Marker } from 'react-map-gl';
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 
 import Pin from '../map/Pin';
 
@@ -11,28 +12,14 @@ class TabContainer extends Component {
     super(props);
     this.state = { value: 'map' };
     this.handleChange = this.handleChange.bind(this);
-    this.resize = this.resize.bind(this);
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.resize);
-    this.resize();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resize);
   }
 
   handleChange(value) {
     this.setState({ value });
   }
 
-  resize() {
-    this.setState({ mapWidth: this.thing.clientWidth });
-  }
-
   render() {
-    const { mapWidth, value } = this.state;
+    const { value } = this.state;
     const { defib } = this.props;
 
     // Get options
@@ -42,13 +29,13 @@ class TabContainer extends Component {
     }
 
     return (
-      <div ref={(thing) => { this.thing = thing; }}>
+      <div>
         <Tabs
           options={options}
           onChange={this.handleChange}
           value={value}
         />
-        <Spacing>
+        <Spacing style={{ width: '100%' }}>
           {renderTabContent()}
         </Spacing>
       </div>
@@ -64,25 +51,31 @@ class TabContainer extends Component {
     function renderMap() {
       const { lat, lon } = defib;
       return (
-        <MapGL
-          mapboxApiAccessToken={ACCESS_TOKEN}
-          width={mapWidth || 0}
-          height={400}
-          latitude={Number(lat)}
-          longitude={Number(lon)}
-          zoom={16}
-        >
-          <Marker
-            latitude={Number(lat)}
-            longitude={Number(lon)}
-          >
-            <Pin
-              size={36}
-              latitude={Number(lat)}
-              longitude={Number(lon)}
-            />
-          </Marker>
-        </MapGL>
+        <div style={{ width: '100%' }}>
+          <AutoSizer>
+            {({ width, height }) => (
+              <MapGL
+                mapboxApiAccessToken={ACCESS_TOKEN}
+                width={width}
+                height={200}
+                latitude={Number(lat)}
+                longitude={Number(lon)}
+                zoom={16}
+              >
+                <Marker
+                  latitude={Number(lat)}
+                  longitude={Number(lon)}
+                >
+                  <Pin
+                    size={36}
+                    latitude={Number(lat)}
+                    longitude={Number(lon)}
+                  />
+                </Marker>
+              </MapGL>
+            )}
+          </AutoSizer>
+        </div>
       );
     }
 
