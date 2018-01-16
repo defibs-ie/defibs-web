@@ -15,6 +15,7 @@ class SubmitContainer extends Component {
     this.handleDrop = this.handleDrop.bind(this);
     this.state = {
       email: '',
+      errors: [],
       notes: '',
       file: null,
       pristine: true,
@@ -44,7 +45,6 @@ class SubmitContainer extends Component {
     // Build a FormData object so that we can send an image along with
     // the other data
     const formData = new FormData();
-    // formData.append('data', data);
     formData.append('file', file);
     formData.append('email', email || null);
     formData.append('lat', lat);
@@ -65,7 +65,7 @@ class SubmitContainer extends Component {
   render() {
     const { isSubmitting } = this.props;
     const {
-      email, file, notes, pristine,
+      email, errors, file, notes, pristine,
     } = this.state;
 
     return (
@@ -78,6 +78,7 @@ class SubmitContainer extends Component {
         >
           <Submit
             email={email}
+            errors={errors}
             file={file}
             handleChange={this.handleChange}
             handleClear={this.handleClear}
