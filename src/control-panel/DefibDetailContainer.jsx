@@ -8,9 +8,8 @@ function DefibDetailContainer(props) {
   const { defib, isCompact } = props;
   return (
     <Spacing>
-      <Spacing bottom>
-      </Spacing>
-      <Spacing bottom
+      <Spacing
+        bottom
         style={{
           display: 'flex',
           alignItems: 'flex-start',
@@ -21,12 +20,12 @@ function DefibDetailContainer(props) {
           {defib.address}
         </Text>
         <a
-          alt="Open with Google Maps"
           href={`https://maps.google.com?q=${defib.lat},${defib.lon}`}
           target="_blank"
           rel="noopen noreferrer"
         >
           <img
+            alt="Open with Google Maps"
             src="https://s3-eu-west-1.amazonaws.com/assets.defibs.ie/images/google-maps.png"
             style={{
               width: '36px',

@@ -12,8 +12,9 @@ import {
 } from 'react-elemental';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import MyLocation from 'react-icons/lib/md/my-location';
+import { geolocated, geoPropTypes } from 'react-geolocated';
+
 import Dropzone from './Dropzone';
-import { geolocated } from 'react-geolocated';
 
 import { Header, Subheader } from '../page';
 import Pin from '../map/Pin';
@@ -198,6 +199,11 @@ Submit.propTypes = {
   notes: PropTypes.string.isRequired,
   onDrop: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
+  ...geoPropTypes,
+};
+
+Submit.defaultProps = {
+  file: null,
 };
 
 export default geolocated()(Submit);
