@@ -21,6 +21,7 @@ function DefibDetailContainer(props) {
           {defib.address}
         </Text>
         <a
+          alt="Open with Google Maps"
           href={`https://maps.google.com?q=${defib.lat},${defib.lon}`}
           target="_blank"
           rel="noopen noreferrer"
