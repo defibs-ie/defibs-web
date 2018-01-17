@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "deck.gl": "^5.0.2",
+    "luma.gl": "^5.0.1",
     "mapbox-gl": "^0.43.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
@@ -33,7 +34,8 @@
     "react-virtualized": "^9.16.1",
     "recompose": "^0.26.0",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "scriptjs": "^2.5.8"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

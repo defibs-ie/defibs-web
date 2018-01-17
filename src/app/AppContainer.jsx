@@ -6,6 +6,7 @@ import { geolocated } from 'react-geolocated';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 
 import { MapContainer } from '../map';
+import { fetchDefibs } from '../defibs/actions';
 import { ControlPanelContainer } from '../control-panel';
 import { setWindowDimensions } from '../screen/actions';
 import { LayoutContainer } from '../layout';
@@ -16,6 +17,8 @@ class AppContainer extends Component {
       window.innerWidth,
       window.innerHeight,
     );
+
+    this.props.fetchDefibs();
   }
 
   render() {
@@ -65,6 +68,7 @@ class AppContainer extends Component {
 }
 
 AppContainer.propTypes = {
+  fetchDefibs: PropTypes.func.isRequired,
   isCompact: PropTypes.bool.isRequired,
   setWindowDimensions: PropTypes.func.isRequired,
 };
@@ -75,4 +79,4 @@ function mapState(state) {
   };
 }
 
-export default geolocated()(connect(mapState, { setWindowDimensions })(AppContainer));
+export default geolocated()(connect(mapState, { fetchDefibs, setWindowDimensions })(AppContainer));

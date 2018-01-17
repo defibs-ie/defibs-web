@@ -8,6 +8,8 @@ module.exports = {
   "globals": {
     "API_URL": true,
     "ACCESS_TOKEN": true,
+    "GOOGLE_MAPS_API_KEY": true,
+    "google": true,
   },
   "rules": {
     "react/no-unescaped-entities": "off",

@@ -9,6 +9,7 @@ import karlaRegular from 'react-elemental-fonts/karla-regular';
 import sourceCodeProMedium from 'react-elemental-fonts/source-code-pro-medium';
 import sourceCodeProRegular from 'react-elemental-fonts/source-code-pro-regular';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import scriptjs from 'scriptjs';
 import 'react-virtualized/styles.css';
 
 import reducer from './reducer';
@@ -32,6 +33,13 @@ bootstrap({
     bold: sourceCodeProMedium,
   },
 });
+
+scriptjs(
+  `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`,
+  () => {
+    // TODO: anything that requires the Google Maps API to be loaded should go in here
+  },
+);
 
 const store = applyMiddleware(reduxThunk)(createStore)(reducer);
 

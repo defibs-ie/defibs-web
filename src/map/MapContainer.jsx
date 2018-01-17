@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { compose, withProps, lifecycle } from 'recompose';
+import { compose, withProps } from 'recompose';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import DeckGL, { LineLayer } from 'deck.gl';
 import MapGL, {
   FlyToInterpolator,
   Marker,
@@ -10,9 +11,10 @@ import MapGL, {
 import { geolocated } from 'react-geolocated';
 import { colors } from 'react-elemental';
 import MyLocation from 'react-icons/lib/md/my-location';
-import { withScriptjs, withGoogleMap } from 'react-google-maps';
+import { withScriptjs } from 'react-google-maps';
 
 import { fetchDefibDetail, fetchDefibs } from '../defibs/actions';
+import { fetchDirections } from '../directions/actions';
 import { persistViewportState, setViewport } from './actions';
 import Pin from './Pin';
 
@@ -28,7 +30,6 @@ class MapContainer extends Component {
   constructor(...args) {
     super(...args);
     this.state = { viewport: this.props.viewport };
-    this.fetchDirections = this.fetchDirections.bind(this);
     this.flyToAndZoom = this.flyToAndZoom.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
@@ -36,7 +37,7 @@ class MapContainer extends Component {
 
   componentDidMount() {
     // Fetch defib list
-    this.props.fetchDefibs();
+    // this.props.fetchDefibs();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,27 +46,6 @@ class MapContainer extends Component {
       const { latitude, longitude } = nextProps.viewport;
       this.flyToAndZoom({ latitude, longitude });
     }
-  }
-
-  fetchDirections(here, there) {
-    const format = ({ latitude, longitude }) => new google.maps.LatLng(latitude, longitude);
-    const directionsService = new google.maps.DirectionsService();
-    directionsService.route({
-      origin: format(here),
-      destination: format(there),
-      travelMode: google.maps.TravelMode.DRIVING,
-    }, (result, status) => {
-      if (status !== google.maps.DirectionsStatus.OK) {
-        console.info(`status: ${status}`);
-        return;
-      }
-      console.info(result);
-      const {
-        routes: [route, ...routesRest],
-      } = result;
-      // TODO: decide what to do with the route
-      this.setState({ route });
-    });
   }
 
   flyToAndZoom({ latitude, longitude }) {
@@ -90,9 +70,9 @@ class MapContainer extends Component {
     // Retrieve defib info
     this.props.fetchDefibDetail(id);
     // Centre the map on the defib location
-    this.flyToAndZoom({ latitude: lat, longitude: lon });
+    // this.flyToAndZoom({ latitude: lat, longitude: lon });
     if (this.props.isGeolocationEnabled) {
-      this.fetchDirections(this.props.coords, { latitude: lat, longitude: lon });
+      this.props.fetchDirections(this.props.coords, { latitude: lat, longitude: lon });
     }
   }
 
@@ -114,8 +94,11 @@ class MapContainer extends Component {
       defibs,
       height,
       isGeolocationEnabled,
+      route,
+      showDirections,
       width,
     } = this.props;
+
     const { viewport } = this.state;
 
     return (
@@ -127,16 +110,32 @@ class MapContainer extends Component {
         mapboxApiAccessToken={ACCESS_TOKEN}
         onViewportChange={this.updateViewport}
       >
+        <DeckGL
+          {...viewport}
+          width={width}
+          height={height}
+
+          layers={[
+            new LineLayer({
+              getColor: () => [255, 140, 0, 0.8 * 255],
+              getSourcePosition: d => d[0],
+              getTargetPosition: d => d[1],
+              id: 'route',
+              strokeWidth: 20,
+              data: route,
+            }),
+          ]}
+
+          visible={route.length && showDirections}
+
+        />
         {defibs.map(defib => (
           <Marker
             key={defib.id}
             longitude={Number(defib.lon)}
             latitude={Number(defib.lat)}
           >
-            <Pin
-              size={36}
-              onClick={() => this.handleMarkerClick(defib)}
-            />
+            <Pin size={36} onClick={() => this.handleMarkerClick(defib)} />
           </Marker>
           ))}
         {isGeolocationEnabled && coords && (
@@ -145,12 +144,7 @@ class MapContainer extends Component {
           latitude={coords.latitude}
           longitude={coords.longitude}
         >
-          <MyLocation
-            style={{
-                  color: colors.gray50,
-                  fontSize: 24,
-                }}
-          />
+          <MyLocation style={{ color: colors.gray50, fontSize: 24 }} />
         </Marker>
           )}
         <div className="nav" style={navStyle}>
@@ -169,9 +163,12 @@ MapContainer.propTypes = {
   defibs: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   fetchDefibDetail: PropTypes.func.isRequired,
   fetchDefibs: PropTypes.func.isRequired,
+  fetchDirections: PropTypes.func.isRequired,
   height: PropTypes.number.isRequired,
   isGeolocationEnabled: PropTypes.bool.isRequired,
   persistViewportState: PropTypes.func.isRequired,
+  route: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  showDirections: PropTypes.bool,
   viewport: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
@@ -187,6 +184,7 @@ MapContainer.propTypes = {
 MapContainer.defaultProps = {
   coords: { latitude: null, longitude: null },
   defibs: [],
+  showDirections: false,
   viewport: {
     latitude: 52,
     longitude: -8,
@@ -201,13 +199,34 @@ MapContainer.defaultProps = {
 function mapState(state) {
   return {
     defibs: state.defibs.defibs,
+    route: parseRoute(state.directions.route),
     viewport: state.map.viewport,
   };
+}
+
+function parseRoute(route) {
+  if (!route) {
+    return [];
+  }
+  const { path } = route;
+  const pathLength = path.length;
+  const pathPairs = path.map(point => [point.lng(), point.lat()]);
+  const data = pathPairs.map((point, idx) => {
+    if (idx < pathLength - 1) {
+      return [
+        point,
+        pathPairs[idx + 1],
+      ];
+    }
+    return undefined;
+  }).filter(_ => _ !== undefined);
+  return data;
 }
 
 export default geolocated()(connect(mapState, {
   fetchDefibDetail,
   fetchDefibs,
+  fetchDirections,
   persistViewportState,
   setViewport,
 })(compose(
