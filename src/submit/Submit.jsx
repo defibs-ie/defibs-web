@@ -87,7 +87,7 @@ class Submit extends Component {
     return (
       <Spacing top left right bottom>
         <Header text="Submit a defib" />
-        <Subheader text="Help us out by submitting a defibrillator location." />
+        <Subheader text="Help us out by submit­ting a defibril­lator location." />
         <form id="submit-form">
           <Spacing bottom>
             <Label

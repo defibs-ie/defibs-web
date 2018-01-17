@@ -92,6 +92,7 @@ class MapContainer extends Component {
 
     const {
       coords,
+      defib: selectedDefib,
       defibs,
       height,
       isGeolocationEnabled,
@@ -136,7 +137,11 @@ class MapContainer extends Component {
             longitude={Number(defib.lon)}
             latitude={Number(defib.lat)}
           >
-            <Pin size={36} onClick={() => this.handleMarkerClick(defib)} />
+            <Pin
+              selected={selectedDefib && defib.id === selectedDefib.id}
+              size={36}
+              onClick={() => this.handleMarkerClick(defib)}
+            />
           </Marker>
           ))}
         {isGeolocationEnabled && coords && (
@@ -199,6 +204,7 @@ MapContainer.defaultProps = {
 
 function mapState(state) {
   return {
+    defib: state.defibs.defib,
     defibs: state.defibs.defibs,
     route: parseRoute(state.directions.route),
     viewport: state.map.viewport,

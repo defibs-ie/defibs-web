@@ -1,4 +1,5 @@
 import {
+  DEFIB_DETAIL_CLEAR,
   DEFIB_DETAIL_FETCHING,
   DEFIB_DETAIL_SUCCESS,
   DEFIB_DETAIL_ERROR,
@@ -9,17 +10,19 @@ import {
 
 export default function reducer(state = {
   defibs: [],
-  defibDetail: null,
+  defib: null,
   isFetching: false,
   isFetchingDetail: false,
 }, action) {
   switch (action.type) {
+    case DEFIB_DETAIL_CLEAR:
+      return { ...state, defib: null, isFetchingDetail: false };
     case DEFIB_DETAIL_ERROR:
       return { ...state, isFetchingDetail: false };
     case DEFIB_DETAIL_FETCHING:
       return { ...state, isFetchingDetail: true };
     case DEFIB_DETAIL_SUCCESS:
-      return { ...state, defibDetail: action.payload, isFetchingDetail: false };
+      return { ...state, defib: action.payload, isFetchingDetail: false };
     case DEFIB_LIST_ERROR:
       return { ...state, defibs: [], isFetching: false };
     case DEFIB_LIST_FETCHING:

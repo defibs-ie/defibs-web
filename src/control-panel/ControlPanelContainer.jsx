@@ -9,6 +9,7 @@ import { geolocated, geoPropTypes } from 'react-geolocated';
 import Header from './Header';
 import DefibDetailContainer from './DefibDetailContainer';
 import Pin from '../map/Pin';
+import { clearDefib } from '../defibs/actions';
 import { moveToLocation } from '../map/actions';
 import { setIsExpanded } from './actions';
 
@@ -25,6 +26,9 @@ class ControlPanelContainer extends Component {
 
   toggleExpansionState() {
     this.props.setIsExpanded(!this.props.isExpanded);
+    if (this.props.defib) {
+      this.props.clearDefib();
+    }
   }
 
   render() {
@@ -145,7 +149,7 @@ function renderEmptyDetail({ isCompact, isGeolocationEnabled, coords }) {
         </Text>
       </Spacing>
       {isCompact && (
-        <Spacing>
+        <Spacing bottom>
           <Text>
             Click on the menu icon
             {' '}
@@ -156,7 +160,7 @@ function renderEmptyDetail({ isCompact, isGeolocationEnabled, coords }) {
         </Spacing>
       )}
       {isGeolocationEnabled && coords && (
-        <Spacing>
+        <Spacing bottom>
           <Text>
             Click on the crosshairs
             {' '}
@@ -177,7 +181,7 @@ renderEmptyDetail.propTypes = {
 
 function mapState(state) {
   return {
-    defib: state.defibs.defibDetail,
+    defib: state.defibs.defib,
     isCompact: state.screen.isCompact,
     isExpanded: state.controlPanel.isExpanded,
   };
@@ -185,5 +189,5 @@ function mapState(state) {
 
 export default geolocated()(connect(
   mapState,
-  { moveToLocation, setIsExpanded },
+  { clearDefib, moveToLocation, setIsExpanded },
 )(ControlPanelContainer));

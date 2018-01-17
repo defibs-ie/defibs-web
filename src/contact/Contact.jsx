@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link, Spacing } from 'react-elemental';
+import { Link, Spacing, Text } from 'react-elemental';
 
 import Github from 'react-icons/lib/fa/github';
 import Twitter from 'react-icons/lib/fa/twitter';
@@ -11,6 +11,13 @@ export default function Contact() {
     <Fragment>
       <Header text="Contact us" />
       <Subheader text="Found a problem? Want to talk?" />
+      <Spacing top>
+        <Text>
+          We're working on a contact form.
+          For the time being, shout at us on Twitter. We're
+          <Link href="https:twitter.com/defibs_ie/">defibs_ie</Link>.
+        </Text>
+      </Spacing>
       <Spacing top>
         <Link href="https://twitter.com/defibs_ie" type="plain" target="_blank">
           <Twitter size={30} />

@@ -11,7 +11,7 @@ export default function AboutPage(props) {
     <Spacing top left right bottom style={{ textAlign: 'justify', hyphens: 'manual' }}>
       <Header text="About defibs.ie" />
       <Subheader
-        text="We're building a map of all the publicly-accessible defibrillators in Ireland."
+        text="We're building a map of all the publicly-acces­sible defibril­lators in Ireland."
       />
       <Spacing top bottom>
         <Text color={colors.gray70} size="epsilon">
@@ -43,7 +43,7 @@ export default function AboutPage(props) {
             Nope, not at all. Information on this website is provided by
             helpful people on the Internet who agree that a map of Irish AEDs
             is a good idea. While we do our best to confirm the information
-            we're given, AEDs are sometimes stolen, de­commissioned, or simply
+            we're given, AEDs are some­times stolen, de­com­mis­sioned, or simply
             left to deteriorate without our knowledge.
           </Text>
           <Spacing top size="tiny">
