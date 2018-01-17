@@ -1778,6 +1778,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+d3-hexbin@^0.2.1:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/d3-hexbin/-/d3-hexbin-0.2.2.tgz#9c5837dacfd471ab05337a9e91ef10bfc4f98831"
+
 d@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/d/-/d-1.0.0.tgz#754bb5bfe55451da69a58b94d45f4c5b0462d58f"
@@ -1813,6 +1817,20 @@ debug@^3.1.0:
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
+
+deck.gl@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/deck.gl/-/deck.gl-5.0.2.tgz#8f184a2007a7d448afa94c73bb80eba9bcec3413"
+  dependencies:
+    d3-hexbin "^0.2.1"
+    earcut "^2.0.6"
+    lodash.flattendeep "^4.4.0"
+    luma.gl "^5.0.0"
+    math.gl "^1.0.0"
+    mjolnir.js "^1.0.0"
+    prop-types "^15.6.0"
+    seer "^0.2.3"
+    viewport-mercator-project "^5.0.0"
 
 decode-uri-component@^0.2.0:
   version "0.2.0"
@@ -2013,7 +2031,7 @@ duplexer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
 
-earcut@^2.0.3:
+earcut@^2.0.3, earcut@^2.0.6:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/earcut/-/earcut-2.1.3.tgz#ca579545f351941af7c3d0df49c9f7d34af99b0c"
 
@@ -3829,6 +3847,10 @@ lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.cond/-/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
 
+lodash.flattendeep@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
+
 lodash.isarguments@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/lodash.isarguments/-/lodash.isarguments-3.1.0.tgz#2f573d85c6a24289ff00663b491c1d338ff3458a"
@@ -3899,6 +3921,19 @@ lru-cache@^4.0.1:
   dependencies:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
+
+luma.gl@^5.0.0:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/luma.gl/-/luma.gl-5.0.1.tgz#5e8d79b5413a1a4b5ab1b057ced3152f351017f4"
+  dependencies:
+    gl-mat4 "^1.1.4"
+    gl-quat "^1.0.0"
+    gl-vec2 "^1.0.0"
+    gl-vec3 "^1.0.3"
+    gl-vec4 "^1.0.1"
+    math.gl "1.0.0-alpha.8"
+    seer "^0.2.2"
+    webgl-debug "^1.0.2"
 
 macaddress@^0.2.8:
   version "0.2.8"
@@ -4020,9 +4055,19 @@ math-expression-evaluator@^1.2.14:
   version "1.2.17"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.17.tgz#de819fdbcd84dccd8fae59c6aeb79615b9d266ac"
 
-"math.gl@>= 1.0.0-alpha.8", math.gl@^1.0.0-alpha.7:
+math.gl@1.0.0-alpha.8, "math.gl@>= 1.0.0-alpha.8", math.gl@^1.0.0-alpha.7:
   version "1.0.0-alpha.8"
   resolved "https://registry.yarnpkg.com/math.gl/-/math.gl-1.0.0-alpha.8.tgz#51dd8d03e5c50096851e8a268d888c1eda766cd1"
+  dependencies:
+    gl-mat4 "^1.1.4"
+    gl-quat "^1.0.0"
+    gl-vec2 "^1.0.0"
+    gl-vec3 "^1.0.3"
+    gl-vec4 "^1.0.1"
+
+math.gl@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/math.gl/-/math.gl-1.0.2.tgz#b714c0d0f68b787c90ba026dad38e104a3e004d9"
   dependencies:
     gl-mat4 "^1.1.4"
     gl-quat "^1.0.0"
@@ -4182,6 +4227,12 @@ mixin-deep@^1.2.0:
 mjolnir.js@>=1.0.0-alpha.1:
   version "1.0.0-alpha.2"
   resolved "https://registry.yarnpkg.com/mjolnir.js/-/mjolnir.js-1.0.0-alpha.2.tgz#c7fed2b660dc8b2cf40977b5a38d6a02c0f93d2a"
+  dependencies:
+    hammerjs "^2.0.8"
+
+mjolnir.js@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mjolnir.js/-/mjolnir.js-1.0.0.tgz#881eaac896f2c2693bc39f5127b4fabe99ff56fb"
   dependencies:
     hammerjs "^2.0.8"
 
@@ -5627,6 +5678,10 @@ seedrandom@^2.4.2:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/seedrandom/-/seedrandom-2.4.3.tgz#2438504dad33917314bff18ac4d794f16d6aaecc"
 
+seer@^0.2.2, seer@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/seer/-/seer-0.2.3.tgz#e7ba529921330327dbbf30141fbf052296772fb7"
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -6500,6 +6555,12 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
+viewport-mercator-project@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/viewport-mercator-project/-/viewport-mercator-project-5.0.0.tgz#d18709dad652581108a6dd58f320409491d40982"
+  dependencies:
+    math.gl "^1.0.0"
+
 viewport-mercator-project@^5.0.0-alpha.1:
   version "5.0.0-alpha.2"
   resolved "https://registry.yarnpkg.com/viewport-mercator-project/-/viewport-mercator-project-5.0.0-alpha.2.tgz#5282e4d55c5886a15b9a091322704f326db003e4"
@@ -6543,6 +6604,10 @@ wbuf@^1.1.0, wbuf@^1.7.2:
   resolved "https://registry.yarnpkg.com/wbuf/-/wbuf-1.7.2.tgz#d697b99f1f59512df2751be42769c1580b5801fe"
   dependencies:
     minimalistic-assert "^1.0.0"
+
+webgl-debug@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/webgl-debug/-/webgl-debug-1.0.2.tgz#93bac5aed181343a136ad34f249920d3b9ccc69a"
 
 webpack-bundle-analyzer@^2.9.2:
   version "2.9.2"
