@@ -48,14 +48,23 @@ class MapContainer extends Component {
   }
 
   fetchDirections(here, there) {
-    const format = ({ latitude, longitude }) => [latitude, longitude];
+    const format = ({ latitude, longitude }) => new google.maps.LatLng(latitude, longitude);
     const directionsService = new google.maps.DirectionsService();
-    console.info(GOOGLE_MAPS_API_KEY);
-    console.info('directionsService');
-    console.info(directionsService);
     directionsService.route({
       origin: format(here),
       destination: format(there),
+      travelMode: google.maps.TravelMode.DRIVING,
+    }, (result, status) => {
+      if (status !== google.maps.DirectionsStatus.OK) {
+        console.info(`status: ${status}`);
+        return;
+      }
+      console.info(result);
+      const {
+        routes: [route, ...routesRest],
+      } = result;
+      // TODO: decide what to do with the route
+      this.setState({ route });
     });
   }
 
@@ -205,8 +214,6 @@ export default geolocated()(connect(mapState, {
   withProps({
     loadingElement: <div />,
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`,
-    // googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=3&libraries=geometry,drawing,places`,
-    // googleMapURL: 'https://maps.googleapis.com/maps/api/',
   }),
   withScriptjs,
 )(MapContainer)));
