@@ -14,6 +14,7 @@ function DefibDetailContainer(props) {
           display: 'flex',
           alignItems: 'flex-start',
           justifyContent: 'space-between',
+          whiteSpace: 'pre-line',
         }}
       >
         <Text size="epsilon" bold>
