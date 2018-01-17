@@ -56,6 +56,7 @@ module.exports = {
         },
       },
     ],
+    noParse: /(mapbox-gl)\.js$/,
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -67,5 +68,12 @@ module.exports = {
       template: 'src/index.html',
       title: 'defibs',
     }),
-  ],
+    NODE_ENV === 'production' ? new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      compress: {
+        warnings: false,
+        comparisons: false,
+      },
+    }) : null,
+  ].filter(_ => _ !== null),
 };

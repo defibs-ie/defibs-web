@@ -70,9 +70,10 @@ class MapContainer extends Component {
     // Retrieve defib info
     this.props.fetchDefibDetail(id);
     // Centre the map on the defib location
-    // this.flyToAndZoom({ latitude: lat, longitude: lon });
+    this.flyToAndZoom({ latitude: lat, longitude: lon });
     if (this.props.isGeolocationEnabled) {
-      this.props.fetchDirections(this.props.coords, { latitude: lat, longitude: lon });
+      // TODO: stop this from breaking the site
+      // this.props.fetchDirections(this.props.coords, { latitude: lat, longitude: lon });
     }
   }
 
