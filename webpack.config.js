@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const {
   ACCESS_TOKEN,
+  GOOGLE_MAPS_API_KEY,
   NODE_ENV,
 } = process.env;
 
@@ -60,6 +61,7 @@ module.exports = {
     new webpack.DefinePlugin({
       ACCESS_TOKEN: `'${ACCESS_TOKEN}'`,
       API_URL: `'${API_URL}'`,
+      GOOGLE_MAPS_API_KEY: `'${GOOGLE_MAPS_API_KEY}'`,
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',

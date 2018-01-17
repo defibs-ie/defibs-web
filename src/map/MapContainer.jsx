@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { compose, withProps, lifecycle } from 'recompose';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MapGL, {
@@ -9,6 +10,7 @@ import MapGL, {
 import { geolocated } from 'react-geolocated';
 import { colors } from 'react-elemental';
 import MyLocation from 'react-icons/lib/md/my-location';
+import { withScriptjs, withGoogleMap } from 'react-google-maps';
 
 import { fetchDefibDetail, fetchDefibs } from '../defibs/actions';
 import { persistViewportState, setViewport } from './actions';
@@ -26,6 +28,7 @@ class MapContainer extends Component {
   constructor(...args) {
     super(...args);
     this.state = { viewport: this.props.viewport };
+    this.fetchDirections = this.fetchDirections.bind(this);
     this.flyToAndZoom = this.flyToAndZoom.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
@@ -42,6 +45,18 @@ class MapContainer extends Component {
       const { latitude, longitude } = nextProps.viewport;
       this.flyToAndZoom({ latitude, longitude });
     }
+  }
+
+  fetchDirections(here, there) {
+    const format = ({ latitude, longitude }) => [latitude, longitude];
+    const directionsService = new google.maps.DirectionsService();
+    console.info(GOOGLE_MAPS_API_KEY);
+    console.info('directionsService');
+    console.info(directionsService);
+    directionsService.route({
+      origin: format(here),
+      destination: format(there),
+    });
   }
 
   flyToAndZoom({ latitude, longitude }) {
@@ -67,6 +82,9 @@ class MapContainer extends Component {
     this.props.fetchDefibDetail(id);
     // Centre the map on the defib location
     this.flyToAndZoom({ latitude: lat, longitude: lon });
+    if (this.props.isGeolocationEnabled) {
+      this.fetchDirections(this.props.coords, { latitude: lat, longitude: lon });
+    }
   }
 
   updateViewport(viewport) {
@@ -183,4 +201,12 @@ export default geolocated()(connect(mapState, {
   fetchDefibs,
   persistViewportState,
   setViewport,
-})(MapContainer));
+})(compose(
+  withProps({
+    loadingElement: <div />,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`,
+    // googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=3&libraries=geometry,drawing,places`,
+    // googleMapURL: 'https://maps.googleapis.com/maps/api/',
+  }),
+  withScriptjs,
+)(MapContainer)));
