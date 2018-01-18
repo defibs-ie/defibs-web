@@ -10,6 +10,7 @@ import Header from './Header';
 import DefibDetailContainer from './DefibDetailContainer';
 import Pin from '../map/Pin';
 import { clearDefib } from '../defibs/actions';
+import { clearDirections } from '../directions/actions';
 import { moveToLocation } from '../map/actions';
 import { setIsExpanded } from './actions';
 import { BASE_STYLE, COMPACT_STYLE, EXPANDED_STYLE } from './styles';
@@ -27,9 +28,14 @@ class ControlPanelContainer extends Component {
   }
 
   toggleExpansionState() {
-    this.props.setIsExpanded(!this.props.isExpanded);
+    const { isExpanded } = this.props;
+    this.props.setIsExpanded(!isExpanded);
     if (this.props.defib) {
       this.props.clearDefib();
+    }
+
+    if (isExpanded && this.props.route) {
+      this.props.clearDirections();
     }
   }
 
@@ -100,10 +106,11 @@ function mapState(state) {
     defib: state.defibs.defib,
     isCompact: state.screen.isCompact,
     isExpanded: state.controlPanel.isExpanded,
+    route: state.directions.route,
   };
 }
 
 export default geolocated()(connect(
   mapState,
-  { clearDefib, moveToLocation, setIsExpanded },
+  { clearDefib, clearDirections, moveToLocation, setIsExpanded },
 )(ControlPanelContainer));

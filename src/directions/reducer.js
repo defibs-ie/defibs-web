@@ -26,7 +26,7 @@ const INITIAL_STATE = {
 export default function reducer(state = INITIAL_STATE , action) {
   switch (action.type) {
     case DIRECTIONS_CLEAR:
-      return INITIAL_STATE;
+      return { ...INITIAL_STATE, mode: state.mode };
     case DIRECTIONS_SUCCESS:
       return handleDirectionsSuccess(state, action.payload);
     case SET_TRAVEL_MODE:

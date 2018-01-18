@@ -45,9 +45,10 @@ function TravelModeSelector(props) {
           }}
         >
           {icon}
-          {mode !== null && mode === selectedMode && duration && (
+          {mode !== null && mode === selectedMode && duration ? (
             <span style={{ color: BUTTON_STYLE.color }}>{ duration.text }</span>
-          )}
+          ) : ''
+          }
         </button>
       ))}
     </Spacing>

@@ -4,6 +4,10 @@ export const DIRECTIONS_SUCCESS = 'directions/SUCCESS';
 export const DIRECTIONS_ERROR = 'directions/ERROR';
 export const SET_TRAVEL_MODE = 'directions/SET_TRAVEL_MODE';
 
+function clearDirections() {
+  return dispatch => dispatch({ type: DIRECTIONS_CLEAR });
+}
+
 // We need the Google script to have loaded in order to fetch directions.
 // This is handled by main.jsx, but might error --- we need to figure out
 // how to handle it.
@@ -39,6 +43,7 @@ function setTravelMode(mode) {
 }
 
 export {
+  clearDirections,
   fetchDirections,
   setTravelMode,
 };
