@@ -7,7 +7,7 @@ import TabContainer from './TabContainer';
 import TravelModeSelector from './TravelModeSelector';
 
 function DefibDetailContainer(props) {
-  const { defib, isCompact, isGeolocated } = props;
+  const { defib, isCompact, isGeolocationEnabled } = props;
   return (
     <Spacing>
       <Spacing
@@ -36,7 +36,7 @@ function DefibDetailContainer(props) {
           />
         </a>
       </Spacing>
-      {isGeolocated && (
+      {isGeolocationEnabled && (
         <Spacing bottom>
           <Text size="kilo" bold>Show directions</Text>
           <TravelModeSelector defib={defib} />
