@@ -6,8 +6,7 @@ import {
 } from './actions';
 
 function handleDirectionsSuccess(state, payload) {
-  const { legs: [{ distance, duration }, ..._] } = payload;
-  console.info(distance);
+  const { legs: [{ distance, duration }, ..._] } = payload; // eslint-disable-line no-unused-vars
   return {
     ...state,
     distance,

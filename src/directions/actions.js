@@ -13,11 +13,10 @@ function clearDirections() {
 // how to handle it.
 function fetchDirections(here, there, mode = 'WALKING') {
   return (dispatch) => {
-    console.info('fetching directions, maybe');
     if (mode === null) {
-      return dispatch({ type: DIRECTIONS_CLEAR });
+      dispatch({ type: DIRECTIONS_CLEAR });
+      return;
     }
-    console.info(`fetching directions for mode: ${mode.toUpperCase()}`);
     const format = ({ latitude, longitude }) => new google.maps.LatLng(latitude, longitude);
     // Call the Google Maps direction service for a route between these two points
     const directionsService = new google.maps.DirectionsService();

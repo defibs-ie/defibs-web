@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { colors } from 'react-elemental';
 
 export const BUTTON_STYLE = {

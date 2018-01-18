@@ -1,14 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Spacing, Text } from 'react-elemental';
-import Menu from 'react-icons/lib/md/menu';
-import MyLocation from 'react-icons/lib/md/my-location';
+import { Spacing } from 'react-elemental';
 import { geolocated, geoPropTypes } from 'react-geolocated';
 
 import Header from './Header';
 import DefibDetailContainer from './DefibDetailContainer';
-import Pin from '../map/Pin';
 import { clearDefib } from '../defibs/actions';
 import { clearDirections } from '../directions/actions';
 import { moveToLocation } from '../map/actions';
@@ -40,9 +37,7 @@ class ControlPanelContainer extends Component {
   }
 
   render() {
-    const {
-      coords, defib, isCompact, isExpanded, isGeolocationEnabled,
-    } = this.props;
+    const { defib, isCompact, isExpanded } = this.props;
 
     // TODO: ugh, this hack
     const compactExpandedStyle = {

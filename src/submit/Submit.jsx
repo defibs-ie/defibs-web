@@ -114,6 +114,7 @@ class Submit extends Component {
           <Spacing bottom>
             <Label
               label="Location"
+              // eslint-disable-next-line max-len
               sublabel="Move the map under the marker to place this defibrillator. Click the crosshairs to zoom to your location."
             />
             <div

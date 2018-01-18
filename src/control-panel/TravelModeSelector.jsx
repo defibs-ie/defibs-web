@@ -65,9 +65,9 @@ function TravelModeSelector(props) {
 }
 
 TravelModeSelector.propTypes = {
-  coords: geoPropTypes.coords,
   defib: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   selectedMode: PropTypes.string,
+  ...geoPropTypes,
 };
 
 TravelModeSelector.defaultProps = {
@@ -75,12 +75,13 @@ TravelModeSelector.defaultProps = {
 };
 
 function mapState({ directions }) {
-  console.info('mapping State');
-  console.info(directions);
   return {
     duration: directions.duration,
     selectedMode: directions.mode,
   };
 }
 
-export default geolocated()(connect(mapState, { fetchDirections, setTravelMode })(TravelModeSelector));
+export default geolocated()(connect(
+  mapState,
+  { fetchDirections, setTravelMode },
+)(TravelModeSelector));

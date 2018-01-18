@@ -16,8 +16,6 @@ function Header(props) {
     onMyLocationClick,
   } = props;
 
-  console.info(props);
-
   return (
     <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
       <Text bold uppercase>defibs.ie</Text>
@@ -69,7 +67,7 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  defib: PropTypes.object,
+  defib: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isExpanded: PropTypes.bool.isRequired,
   isGeolocationEnabled: PropTypes.bool.isRequired,
   onExpandClick: PropTypes.func.isRequired,
