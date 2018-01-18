@@ -39,7 +39,7 @@ function TravelModeSelector(props) {
           onClick={() => handleClick(mode)}
           style={{
             ...BUTTON_STYLE,
-            color: mode === selectedMode ? '#8b0000' : BUTTON_STYLE.color,
+            color: mode === selectedMode ? 'rgb(0, 139, 139)' : BUTTON_STYLE.color,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
