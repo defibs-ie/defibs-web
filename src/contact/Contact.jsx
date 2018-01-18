@@ -15,6 +15,7 @@ export default function Contact() {
         <Text>
           We're working on a contact form.
           For the time being, shout at us on Twitter. We're
+          {' '}
           <Link href="https:twitter.com/defibs_ie/">defibs_ie</Link>.
         </Text>
       </Spacing>
