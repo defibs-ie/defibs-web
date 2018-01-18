@@ -8,7 +8,7 @@ import MapGL, {
   Marker,
   NavigationControl,
 } from 'react-map-gl';
-import { geolocated } from 'react-geolocated';
+import { geolocated, geoPropTypes } from 'react-geolocated';
 import { colors } from 'react-elemental';
 import MyLocation from 'react-icons/lib/md/my-location';
 import { withScriptjs } from 'react-google-maps';
@@ -118,16 +118,18 @@ class MapContainer extends Component {
           width={width}
           height={height}
 
-          layers={[
-            new LineLayer({
-              getColor: () => [255, 140, 0, 0.8 * 255],
-              getSourcePosition: d => d[0],
-              getTargetPosition: d => d[1],
-              id: 'route',
-              strokeWidth: 20,
-              data: route,
-            }),
-          ]}
+          layers={
+            [
+              new LineLayer({
+                getColor: () => [255, 140, 0, 0.8 * 255],
+                getSourcePosition: d => d[0],
+                getTargetPosition: d => d[1],
+                id: 'route',
+                strokeWidth: 20,
+                data: route,
+              }),
+            ]
+          }
 
           visible={route.length && showDirections}
 
@@ -163,16 +165,11 @@ class MapContainer extends Component {
 }
 
 MapContainer.propTypes = {
-  coords: PropTypes.shape({
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-  }),
   defibs: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   fetchDefibDetail: PropTypes.func.isRequired,
   fetchDefibs: PropTypes.func.isRequired,
   fetchDirections: PropTypes.func.isRequired,
   height: PropTypes.number.isRequired,
-  isGeolocationEnabled: PropTypes.bool.isRequired,
   persistViewportState: PropTypes.func.isRequired,
   route: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   showDirections: PropTypes.bool,
@@ -186,10 +183,10 @@ MapContainer.propTypes = {
     height: PropTypes.number.isRequired,
   }),
   width: PropTypes.number.isRequired,
+  ...geoPropTypes,
 };
 
 MapContainer.defaultProps = {
-  coords: { latitude: null, longitude: null },
   defibs: [],
   showDirections: false,
   viewport: {
