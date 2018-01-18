@@ -63,6 +63,7 @@ module.exports = {
       ACCESS_TOKEN: `'${ACCESS_TOKEN}'`,
       API_URL: `'${API_URL}'`,
       GOOGLE_MAPS_API_KEY: `'${GOOGLE_MAPS_API_KEY}'`,
+      'process.env.NODE_ENV': JSON.stringify(NODE_ENV || 'development'),
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
