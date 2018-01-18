@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spacing, Text } from 'react-elemental';
+import { geolocated, geoPropTypes } from 'react-geolocated';
 import TabContainer from './TabContainer';
 import TravelModeSelector from './TravelModeSelector';
 
 function DefibDetailContainer(props) {
-  const { defib, isCompact } = props;
+  const { defib, isCompact, isGeolocated } = props;
   return (
     <Spacing>
       <Spacing
@@ -35,10 +36,12 @@ function DefibDetailContainer(props) {
           />
         </a>
       </Spacing>
-      <Spacing bottom>
-        <Text size="kilo" bold>Show directions</Text>
-        <TravelModeSelector defib={defib} />
-      </Spacing>
+      {isGeolocated && (
+        <Spacing bottom>
+          <Text size="kilo" bold>Show directions</Text>
+          <TravelModeSelector defib={defib} />
+        </Spacing>
+      )}
       <Spacing bottom>
         <Text size="kilo" bold>Notes</Text>
         <Text>
@@ -74,6 +77,7 @@ function mapState({ screen }) {
 DefibDetailContainer.propTypes = {
   defib: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   isCompact: PropTypes.bool.isRequired,
+  ...geoPropTypes,
 };
 
-export default connect(mapState, {})(DefibDetailContainer);
+export default geolocated()(connect(mapState, {})(DefibDetailContainer));
