@@ -37,6 +37,7 @@ export default class Pin extends PureComponent {
             stroke: selected ? SELECTED_STROKE : DEFAULT_STROKE, // '#ffffff',
             fill: selected ? SELECTED_FILL : DEFAULT_FILL, // '#8b0000',
             strokeWidth: '2',
+            transition: 'all .3s ease',
           }}
         />
         <path
