@@ -12,6 +12,8 @@ import Pin from '../map/Pin';
 import { clearDefib } from '../defibs/actions';
 import { moveToLocation } from '../map/actions';
 import { setIsExpanded } from './actions';
+import { BASE_STYLE, COMPACT_STYLE, EXPANDED_STYLE } from './styles';
+import EmptyDetail from './EmptyDetail';
 
 class ControlPanelContainer extends Component {
   constructor(props) {
@@ -36,32 +38,6 @@ class ControlPanelContainer extends Component {
       coords, defib, isCompact, isExpanded, isGeolocationEnabled,
     } = this.props;
 
-    const baseStyle = {
-      backgroundColor: 'white',
-      maxHeight: '110px',
-      opacity: 1,
-      overflowX: 'hidden',
-      overflowY: 'hidden',
-      transition: 'all 0.3s ease',
-      // transition: 'height 0.3s ease',
-      width: '500px',
-    };
-
-    const expandedStyle = {
-      maxHeight: 'calc(100vh - 48px)',
-      // opacity: 1,
-      overflowY: 'auto',
-    };
-
-    const compactStyle = {
-      boxSizing: 'border-box',
-      maxHeight: '40px',
-      height: '100vh',
-      overflowX: 'hidden',
-      overflowY: 'auto',
-      width: 'inherit',
-    };
-
     // TODO: ugh, this hack
     const compactExpandedStyle = {
       maxHeight: '100vh',
@@ -71,9 +47,9 @@ class ControlPanelContainer extends Component {
       <Spacing
         size="large"
         style={{
-        ...baseStyle,
-        ...isCompact && compactStyle,
-        ...isExpanded && expandedStyle,
+        ...BASE_STYLE,
+        ...isCompact && COMPACT_STYLE,
+        ...isExpanded && EXPANDED_STYLE,
         ...isCompact && isExpanded && compactExpandedStyle,
       }}
         right
@@ -98,10 +74,7 @@ class ControlPanelContainer extends Component {
 
           {isExpanded && (
           <Spacing size="large" top bottom>
-            {defib
-              ? renderDefibDetail({ defib })
-              : renderEmptyDetail({ isCompact, isGeolocationEnabled, coords })
-            }
+            {defib ? <DefibDetailContainer defib={defib} /> : <EmptyDetail {...this.props} />}
           </Spacing>
         )}
         </Spacing>
@@ -120,63 +93,6 @@ ControlPanelContainer.propTypes = {
 
 ControlPanelContainer.defaultProps = {
   defib: null,
-};
-
-function renderDefibDetail({ defib }) {
-  return <DefibDetailContainer defib={defib} />;
-}
-
-renderDefibDetail.propTypes = {
-  defib: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-};
-
-function renderEmptyDetail({ isCompact, isGeolocationEnabled, coords }) {
-  return (
-    <Fragment>
-      <Spacing bottom>
-        <Text>
-          Click on a defibrillator marker
-          {' '}
-          <Pin
-            size={20}
-            style={{
-              transform: 'translateY(3.333333px)',
-              cursor: 'default',
-            }}
-          />
-          {' '}
-          for more information.
-        </Text>
-      </Spacing>
-      {isCompact && (
-        <Spacing bottom>
-          <Text>
-            Click on the menu icon
-            {' '}
-            <Menu />
-            {' '}
-            for more options.
-          </Text>
-        </Spacing>
-      )}
-      {isGeolocationEnabled && coords && (
-        <Spacing bottom>
-          <Text>
-            Click on the crosshairs
-            {' '}
-            <MyLocation />
-            {' '}
-            to zoom to your location.
-          </Text>
-        </Spacing>
-      )}
-    </Fragment>
-  );
-}
-
-renderEmptyDetail.propTypes = {
-  isCompact: PropTypes.bool.isRequired,
-  ...geoPropTypes,
 };
 
 function mapState(state) {
