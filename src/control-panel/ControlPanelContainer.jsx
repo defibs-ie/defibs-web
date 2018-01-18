@@ -112,5 +112,7 @@ function mapState(state) {
 
 export default geolocated()(connect(
   mapState,
-  { clearDefib, clearDirections, moveToLocation, setIsExpanded },
+  {
+    clearDefib, clearDirections, moveToLocation, setIsExpanded,
+  },
 )(ControlPanelContainer));

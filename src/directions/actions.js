@@ -11,7 +11,7 @@ function clearDirections() {
 // We need the Google script to have loaded in order to fetch directions.
 // This is handled by main.jsx, but might error --- we need to figure out
 // how to handle it.
-function fetchDirections(here, there, mode='WALKING') {
+function fetchDirections(here, there, mode = 'WALKING') {
   return (dispatch) => {
     console.info('fetching directions, maybe');
     if (mode === null) {

@@ -114,9 +114,7 @@ class Submit extends Component {
           <Spacing bottom>
             <Label
               label="Location"
-              sublabel={
-                "Move the map under the marker to place this defibrillator. Click the crosshairs to zoom to your location."
-              }
+              sublabel="Move the map under the marker to place this defibrillator. Click the crosshairs to zoom to your location."
             />
             <div
               style={{ width: '100%', height: '300px' }}

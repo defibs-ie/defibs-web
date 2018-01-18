@@ -46,7 +46,7 @@ function Header(props) {
       >
         {defib
         ? (
-         <Clear
+          <Clear
             style={{
               color: colors.gray50,
               fontSize: '24px',
@@ -54,14 +54,14 @@ function Header(props) {
             }}
           />
        ) : (
-          <KeyboardArrowUp
-            style={{
+         <KeyboardArrowUp
+           style={{
               color: colors.gray50,
               fontSize: '24px',
               transform: `rotate(${isExpanded ? 0 : 180}deg)`,
               transition: 'all 0.3s ease',
             }}
-          />
+         />
         )}
       </div>
     </div>

@@ -23,7 +23,7 @@ const INITIAL_STATE = {
   route: null,
 };
 
-export default function reducer(state = INITIAL_STATE , action) {
+export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case DIRECTIONS_CLEAR:
       return { ...INITIAL_STATE, mode: state.mode };

@@ -19,7 +19,9 @@ const TRAVEL_MODES = [
 ];
 
 function TravelModeSelector(props) {
-  const { coords, defib, duration, selectedMode } = props;
+  const {
+    coords, defib, duration, selectedMode,
+  } = props;
   return (
     <Spacing
       bottom
