@@ -67,13 +67,14 @@ class MapContainer extends Component {
   }
 
   handleMarkerClick({ lat, lon, id }) {
+    const { coords, isGeolocationEnabled, selectedMode } = this.props;
     // Retrieve defib info
     this.props.fetchDefibDetail(id);
     // Centre the map on the defib location
     this.flyToAndZoom({ latitude: lat, longitude: lon });
-    if (this.props.isGeolocationEnabled) {
-      // TODO: stop this from breaking the site
-      // this.props.fetchDirections(this.props.coords, { latitude: lat, longitude: lon });
+    // If we have geolocation and a selected travel mode, then show directions
+    if (isGeolocationEnabled && selectedMode) {
+      this.props.fetchDirections(coords, { latitude: lat, longitude: lon }, selectedMode);
     }
   }
 
@@ -207,6 +208,7 @@ function mapState(state) {
     defib: state.defibs.defib,
     defibs: state.defibs.defibs,
     route: parseRoute(state.directions.route),
+    selectedMode: state.directions.mode,
     viewport: state.map.viewport,
   };
 }
@@ -215,7 +217,7 @@ function parseRoute(route) {
   if (!route) {
     return [];
   }
-  const { path } = route;
+  const { overview_path: path } = route;
   const pathLength = path.length;
   const pathPairs = path.map(point => [point.lng(), point.lat()]);
   const data = pathPairs.map((point, idx) => {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spacing, Text } from 'react-elemental';
 import TabContainer from './TabContainer';
+import TravelModeSelector from './TravelModeSelector';
 
 function DefibDetailContainer(props) {
   const { defib, isCompact } = props;
@@ -33,6 +34,10 @@ function DefibDetailContainer(props) {
             }}
           />
         </a>
+      </Spacing>
+      <Spacing bottom>
+        <Text size="kilo" bold>Show directions</Text>
+        <TravelModeSelector defib={defib} />
       </Spacing>
       <Spacing bottom>
         <Text size="kilo" bold>Notes</Text>
