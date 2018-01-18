@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose, withProps } from 'recompose';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import DeckGL, { LineLayer } from 'deck.gl';
+import DeckGL, { PathLayer } from 'deck.gl';
 import MapGL, {
   FlyToInterpolator,
   Marker,
@@ -97,7 +97,7 @@ class MapContainer extends Component {
       defibs,
       height,
       isGeolocationEnabled,
-      route,
+      path,
       showDirections,
       width,
     } = this.props;
@@ -113,27 +113,28 @@ class MapContainer extends Component {
         mapboxApiAccessToken={ACCESS_TOKEN}
         onViewportChange={this.updateViewport}
       >
-        <DeckGL
+        {path.length && <DeckGL
           {...viewport}
           width={width}
           height={height}
 
           layers={
             [
-              new LineLayer({
-                getColor: () => [255, 140, 0, 0.8 * 255],
-                getSourcePosition: d => d[0],
-                getTargetPosition: d => d[1],
-                id: 'route',
-                strokeWidth: 20,
-                data: route,
+              new PathLayer({
+                data: [{
+                  color: [0, 139, 139],
+                  path,
+                  width: 10,
+                }],
+                rounded: true,
+                id: 'route-path',
               }),
             ]
           }
 
-          visible={route.length && showDirections}
+          visible={path.length && showDirections}
 
-        />
+        />}
         {defibs.map(defib => (
           <Marker
             key={defib.id}
@@ -171,7 +172,7 @@ MapContainer.propTypes = {
   fetchDirections: PropTypes.func.isRequired,
   height: PropTypes.number.isRequired,
   persistViewportState: PropTypes.func.isRequired,
-  route: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  path: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   showDirections: PropTypes.bool,
   viewport: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
@@ -200,33 +201,25 @@ MapContainer.defaultProps = {
   },
 };
 
-function mapState(state) {
+function mapState({
+  defibs: { defibs, defib },
+  directions: { mode, route },
+  map: { viewport },
+}) {
   return {
-    defib: state.defibs.defib,
-    defibs: state.defibs.defibs,
-    route: parseRoute(state.directions.route),
-    selectedMode: state.directions.mode,
-    viewport: state.map.viewport,
+    defib,
+    defibs,
+    viewport,
+    path: parsePath(route),
+    selectedMode: mode,
   };
 }
 
-function parseRoute(route) {
+function parsePath(route) {
   if (!route) {
     return [];
   }
-  const { overview_path: path } = route;
-  const pathLength = path.length;
-  const pathPairs = path.map(point => [point.lng(), point.lat()]);
-  const data = pathPairs.map((point, idx) => {
-    if (idx < pathLength - 1) {
-      return [
-        point,
-        pathPairs[idx + 1],
-      ];
-    }
-    return undefined;
-  }).filter(_ => _ !== undefined);
-  return data;
+  return route.overview_path.map(point => [point.lng(), point.lat()]);
 }
 
 export default geolocated()(connect(mapState, {
